@@ -52,6 +52,8 @@ function createGeometricAnimation() {
 function initNavigation() {
     const navLinks = document.querySelectorAll('nav a[data-section]');
     const heroSection = document.getElementById('hero');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('header nav');
     let activeSection = heroSection;
 
     // Hide all content sections initially
@@ -100,11 +102,20 @@ function initNavigation() {
 
     heroSection.addEventListener('click', () => showSection(null));
 
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('open');
+        });
+    }
+
     navLinks.forEach(link => {
         const target = document.getElementById(link.dataset.section);
         link.addEventListener('click', e => {
             e.preventDefault();
             showSection(target);
+            if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+            }
         });
     });
 }

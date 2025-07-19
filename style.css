@@ -111,6 +111,15 @@ nav ul li a:hover {
     color: #00bfff; /* ホバー時の色を水色に */
 }
 
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
 .patreon-button {
     background-color: #00bfff; /* 水色っぽい青 */
     color: #fff;
@@ -248,4 +257,65 @@ main {
 .artwork-item p {
     font-size: 1em;
     color: #ccc;
+}
+
+@media (max-width: 600px) {
+    header {
+        margin-top: 10px;
+        padding: 10px;
+        max-width: none;
+        border-radius: 0;
+        left: 0;
+        transform: none;
+    }
+
+    header nav {
+        position: relative;
+        justify-content: flex-start;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 0 0 10px 10px;
+        padding: 10px 0;
+        display: none;
+        margin: 0;
+    }
+
+    nav.open ul {
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    #hero h1 {
+        font-size: 2em;
+    }
+
+    #hero p {
+        font-size: 1em;
+    }
+
+    .content-section {
+        padding: 60px 15px;
+    }
+
+    .content-section h2 {
+        font-size: 2em;
+    }
+
+    .artwork-item {
+        width: 100%;
+    }
 }
