@@ -1,15 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createFireflyAnimation();
+    createFireflyAnimation('.background-animation', {
+        count: 40,
+        minDepth: 0.3,
+        maxDepth: 1,
+        speed: 0.6
+    });
+    createFireflyAnimation('.foreground-animation', {
+        count: 20,
+        minDepth: 0.1,
+        maxDepth: 0.4,
+        speed: 1
+    });
     initArtworkFilters();
     initLightbox();
 });
 
-function createFireflyAnimation() {
-    const container = document.querySelector('.background-animation');
+function createFireflyAnimation(selector, opts = {}) {
+    const container = document.querySelector(selector);
     if (!container) return;
 
-    const COUNT = 40;
+    const COUNT = opts.count || 40;
+    const minDepth = opts.minDepth ?? 0.3;
+    const maxDepth = opts.maxDepth ?? 1;
+    const speed = opts.speed ?? 0.6;
     const flies = [];
 
     for (let i = 0; i < COUNT; i++) {
@@ -22,14 +36,14 @@ function createFireflyAnimation() {
         el.style.height = `${size}px`;
         el.style.background = `radial-gradient(circle, hsla(${hue},100%,70%,1) 0%, hsla(${hue},100%,70%,0.3) 60%, hsla(${hue},100%,70%,0) 100%)`;
         el.style.boxShadow = `0 0 6px 2px hsla(${hue},100%,65%,0.8)`;
-        const depth = Math.random() * 0.7 + 0.3;
+        const depth = Math.random() * (maxDepth - minDepth) + minDepth;
         flies.push({
             el,
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
             z: depth,
-            vx: (Math.random() - 0.5) * 0.6 * depth,
-            vy: (Math.random() - 0.5) * 0.6 * depth
+            vx: (Math.random() - 0.5) * speed * depth,
+            vy: (Math.random() - 0.5) * speed * depth
         });
     }
 

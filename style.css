@@ -22,7 +22,18 @@ body {
     z-index: -1; /* 他のコンテンツの下に配置 */
     overflow: hidden; /* はみ出さないように */
 }
-.background-animation .firefly {
+.foreground-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 200;
+}
+.background-animation .firefly,
+.foreground-animation .firefly {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
