@@ -1,7 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
+    createFireflyAnimation();
     createGeometricAnimation();
 });
+
+function createFireflyAnimation() {
+    const canvas = document.getElementById('firefly-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const COUNT = 40;
+    const fireflies = Array.from({ length: COUNT }, () => createFirefly());
+
+    function createFirefly() {
+        return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            size: 1 + Math.random() * 2,
+            blink: Math.random() * 360
+        };
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.shadowBlur = 8;
+        fireflies.forEach(f => {
+            f.x += f.vx;
+            f.y += f.vy;
+            if (f.x < 0) f.x += width; else if (f.x > width) f.x -= width;
+            if (f.y < 0) f.y += height; else if (f.y > height) f.y -= height;
+            f.blink += 2;
+            const alpha = 0.5 + 0.5 * Math.sin(f.blink * Math.PI / 180);
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(255,255,200,${alpha})`;
+            ctx.shadowColor = `rgba(255,255,200,${alpha})`;
+            ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+}
 
 function createGeometricAnimation() {
     const container = document.querySelector('.background-animation');
