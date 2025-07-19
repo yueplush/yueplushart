@@ -45,9 +45,9 @@ body {
 
 header {
     background-color: rgba(0, 0, 0, 0.5); /* 透過した黒 (約50%) */
-    margin: 20px auto; /* 上下20px、左右自動で中央寄せ */
+    margin-top: 20px; /* 上部に余白 */
     max-width: 960px; /* コンテンツの幅に合わせる */
-    width: calc(100% - 40px); /* 左右のmarginを考慮 */
+    width: 100%; /* max-widthが適用されるように */
     border-radius: 15px; /* 角を丸く */
     padding: 10px 0; /* 上下のパディングを調整 */
     position: fixed; /* 画面上部に固定 */
