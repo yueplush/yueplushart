@@ -92,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 targetSection.style.display = 'block'; // Make it displayable for transition
 
+                // Force reflow to ensure initial transform is applied before transition
+                targetSection.offsetWidth; 
+
                 // A small delay to ensure the initial transform is applied before the transition starts
                 setTimeout(() => {
                     targetSection.classList.remove('hidden');
