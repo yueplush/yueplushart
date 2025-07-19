@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Trigger the slide-in animation after a very short delay
                 setTimeout(() => {
                     targetSection.style.transform = 'translateX(0)'; // Slide into view
-                }, 100); // 遅延を少し長く (100ms) に戻す
+                }, 500); // CSSトランジションに合わせて遅延 (0.5秒)
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
