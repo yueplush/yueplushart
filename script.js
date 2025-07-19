@@ -1,28 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createBubbleAnimation();
+    createFireflyAnimation();
 });
 
-function createBubbleAnimation() {
+function createFireflyAnimation() {
     const container = document.querySelector('.background-animation');
     if (!container) return;
 
     const COUNT = 40;
+    const flies = [];
+
     for (let i = 0; i < COUNT; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        const size = 20 + Math.random() * 60;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${Math.random() * 100}%`;
-        bubble.style.setProperty('--duration', `${15 + Math.random() * 10}s`);
-        bubble.style.animationDelay = `${Math.random() * -20}s`;
-        bubble.addEventListener('animationiteration', () => {
-            bubble.style.left = `${Math.random() * 100}%`;
-            bubble.style.setProperty('--duration', `${15 + Math.random() * 10}s`);
+        const el = document.createElement('div');
+        el.className = 'firefly';
+        container.appendChild(el);
+        const depth = Math.random() * 0.7 + 0.3;
+        flies.push({
+            el,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            z: depth,
+            vx: (Math.random() - 0.5) * 0.6 * depth,
+            vy: (Math.random() - 0.5) * 0.6 * depth
         });
-        container.appendChild(bubble);
     }
+
+    function animate() {
+        flies.forEach(f => {
+            f.x += f.vx;
+            f.y += f.vy;
+            f.vx += (Math.random() - 0.5) * 0.02;
+            f.vy += (Math.random() - 0.5) * 0.02;
+            const max = 0.3 * f.z;
+            if (f.vx > max) f.vx = max;
+            if (f.vx < -max) f.vx = -max;
+            if (f.vy > max) f.vy = max;
+            if (f.vy < -max) f.vy = -max;
+            if (f.x < -50) f.x = window.innerWidth + 50;
+            if (f.x > window.innerWidth + 50) f.x = -50;
+            if (f.y < -50) f.y = window.innerHeight + 50;
+            if (f.y > window.innerHeight + 50) f.y = -50;
+            const scale = 0.5 + (1 - f.z);
+            f.el.style.transform = `translate(${f.x}px, ${f.y}px) scale(${scale})`;
+        });
+        requestAnimationFrame(animate);
+    }
+
+    animate();
 }
 
 
