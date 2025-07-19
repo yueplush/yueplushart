@@ -333,6 +333,14 @@ main {
     text-align: left;
 }
 
+#commission > h2 {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
+}
+
 #commission .commission-content {
     margin-left: auto;
     margin-right: auto;
@@ -342,6 +350,10 @@ main {
 }
 
 @media (min-width: 768px) {
+    #commission > h2 {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
     #commission .commission-content {
         padding-left: 3rem;
         padding-right: 3rem;
