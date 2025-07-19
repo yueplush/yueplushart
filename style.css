@@ -331,6 +331,10 @@ main {
     text-align: left;
 }
 
+#commission .commission-content {
+    margin-left: 1.5rem;
+}
+
 #commission .commission-heading {
     font-weight: bold;
     color: #ffcc00;
