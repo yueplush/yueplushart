@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    /* 背景アニメーションがはみ出さないように */
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* 黒ベース */
+    z-index: -1; /* 他のコンテンツの下に配置 */
+    overflow: hidden; /* パーティクルがはみ出さないように */
+}
+
+.particle {
+    filter: blur(0.5px); /* パーティクルに微妙なぼかし効果 */
+}
+
+header {
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明の黒 */
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #0f0; /* 緑基調 */
+}
+
+.patreon-button {
+    background-color: #00bfff; /* 水色っぽい青 */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.patreon-button:hover {
+    background-color: #009acd; /* ホバー時の色 */
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding-top: 100px; /* ヘッダーの下にスペースを確保 */
+}
+
+#hero h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+#hero p {
+    font-size: 1.2em;
+}
+
+.content-section {
+    padding: 80px 20px;
+    margin: 0 auto;
+    max-width: 960px;
+    background-color: rgba(0, 0, 0, 0.8); /* コンテンツの背景を半透明の黒に */
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); /* 緑色の光るシャドウ */
+}
+
+.content-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #0f0; /* 緑色 */
+}
+
+.content-section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
