@@ -1,8 +1,11 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
     color: #fff;
-    /* overflow: hidden; を削除 */
 }
 
 .dynamic-animation-layer {
@@ -122,6 +125,7 @@ main {
     margin-bottom: 40px;
     box-shadow: 0 0 20px rgba(0, 160, 255, 0.3); /* 水色系の光るシャドウ */
     transition: opacity 0.5s ease-in-out; /* フェードイン/アウトのトランジション */
+    backdrop-filter: blur(8px); /* 背景を少しぼかす */
 }
 
 .content-section.hidden {
