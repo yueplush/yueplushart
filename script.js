@@ -91,16 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetSection.style.transform = 'translateX(-100%)'; // Start from left
                 }
                 targetSection.style.display = 'block'; // Make it displayable for transition
+                targetSection.classList.remove('hidden'); // Make it visible (opacity 1)
+                targetSection.classList.add('visible'); // Add visible class for transition
 
-                // Force reflow to ensure initial transform is applied before transition
+                // Force reflow to ensure initial transform and opacity are applied
                 targetSection.offsetWidth; 
 
-                // A small delay to ensure the initial transform is applied before the transition starts
+                // Trigger the slide-in animation after a very short delay
                 setTimeout(() => {
-                    targetSection.classList.remove('hidden');
-                    targetSection.classList.add('visible');
                     targetSection.style.transform = 'translateX(0)'; // Slide into view
-                }, 100); // 遅延を少し長く (100ms)
+                }, 10); // A very short delay to allow reflow to complete
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
