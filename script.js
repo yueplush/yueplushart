@@ -1,54 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createFireflyAnimation();
+    createBubbleAnimation();
 });
 
-function createFireflyAnimation() {
-    const canvas = document.getElementById('firefly-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    let width, height;
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+function createBubbleAnimation() {
+    const container = document.querySelector('.background-animation');
+    if (!container) return;
 
     const COUNT = 40;
-    const fireflies = Array.from({ length: COUNT }, () => createFirefly());
-
-    function createFirefly() {
-        return {
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            size: 1 + Math.random() * 2,
-            blink: Math.random() * 360
-        };
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.shadowBlur = 8;
-        fireflies.forEach(f => {
-            f.x += f.vx;
-            f.y += f.vy;
-            if (f.x < 0) f.x += width; else if (f.x > width) f.x -= width;
-            if (f.y < 0) f.y += height; else if (f.y > height) f.y -= height;
-            f.blink += 2;
-            const alpha = 0.5 + 0.5 * Math.sin(f.blink * Math.PI / 180);
-            ctx.beginPath();
-            ctx.fillStyle = `rgba(255,255,200,${alpha})`;
-            ctx.shadowColor = `rgba(255,255,200,${alpha})`;
-            ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
-            ctx.fill();
+    for (let i = 0; i < COUNT; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const size = 20 + Math.random() * 60;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${Math.random() * 100}%`;
+        bubble.style.setProperty('--duration', `${15 + Math.random() * 10}s`);
+        bubble.style.animationDelay = `${Math.random() * -20}s`;
+        bubble.addEventListener('animationiteration', () => {
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.setProperty('--duration', `${15 + Math.random() * 10}s`);
         });
-        requestAnimationFrame(draw);
+        container.appendChild(bubble);
     }
-    requestAnimationFrame(draw);
 }
 
 
