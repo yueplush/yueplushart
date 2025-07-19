@@ -6,6 +6,7 @@ body {
     margin: 0;
     font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
     color: #fff;
+    padding-top: 80px; /* ヘッダーの高さと余白を考慮 */
 }
 
 .dynamic-animation-layer {
@@ -111,7 +112,7 @@ main {
     position: relative;
     z-index: 1;
     text-align: center;
-    padding-top: 120px; /* ヘッダーの高さと余白を考慮して調整 */
+    /* padding-top: 120px; を削除 */
 }
 
 #hero {
