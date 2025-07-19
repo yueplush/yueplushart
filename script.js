@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 visibleSection.classList.add('hidden');
                 // アニメーション終了後にdisplay:noneを適用
                 visibleSection.addEventListener('transitionend', function handler() {
-                    visibleSection.style.display = 'none';
+                    // heroセクションはpointer-eventsで制御するためdisplay:noneは不要
+                    if (visibleSection.id !== 'hero') {
+                        visibleSection.style.display = 'none';
+                    }
                     visibleSection.removeEventListener('transitionend', handler);
                 });
             });

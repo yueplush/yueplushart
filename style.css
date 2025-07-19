@@ -124,7 +124,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.9); /* ヒーローセクションの背景色 */
+    background-color: rgba(0, 0, 0, 0.7); /* ヒーローセクションの背景色を調整 */
     color: #fff;
     z-index: 99; /* ヘッダーの下、コンテンツの上に配置 */
     transition: opacity 0.5s ease-in-out;
@@ -157,18 +157,20 @@ main {
     border-radius: 10px;
     margin-bottom: 40px;
     box-shadow: 0 0 20px rgba(0, 160, 255, 0.3); /* 水色系の光るシャドウ */
-    transition: opacity 0.5s ease-in-out; /* フェードイン/アウトのトランジション */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* フェードイン/アウトと左右移動のトランジション */
     backdrop-filter: blur(8px); /* 背景を少しぼかす */
 }
 
 .content-section.hidden {
     opacity: 0;
-    display: none; /* 非表示時はdisplay:noneでレイアウトから除外 */
+    transform: translateX(100%); /* 右に移動 */
+    pointer-events: none; /* 非表示時にクリックイベントを無効化 */
 }
 
 .content-section.visible {
     opacity: 1;
-    display: block; /* 表示時はdisplay:block */
+    transform: translateX(0); /* 元の位置 */
+    pointer-events: auto;
 }
 
 .content-section h2 {
