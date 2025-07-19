@@ -495,8 +495,8 @@ main {
 }
 
 .lightbox-content img {
-    max-width: 80vw;
-    max-height: 80vh;
+    max-width: 90vw;
+    max-height: 90vh;
     border-radius: 5px;
 }
 
@@ -507,8 +507,18 @@ main {
 .lightbox-text h3 {
     color: #0f0;
     margin-top: 0;
+    animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 .lightbox-text p {
     margin-bottom: 0;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+    }
+    to {
+        text-shadow: 0 0 8px #0f0, 0 0 15px #0f0, 0 0 30px #0f0;
+    }
 }
