@@ -12,7 +12,7 @@ body {
     width: 100%;
     height: 100%;
     /* 黒ベースから下部水色グラデーションへ変更 */
-    background: linear-gradient(to top, rgba(0, 200, 255, 0.3) 0%, rgba(0, 0, 0, 0.7) 60%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(to top, rgba(0, 160, 255, 0.5) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 1) 100%);
     z-index: -1; /* 他のコンテンツの下に配置 */
     overflow: hidden; /* はみ出さないように */
 }
@@ -89,7 +89,7 @@ main {
     background-color: rgba(0, 0, 0, 0.8); /* コンテンツの背景を半透明の黒に */
     border-radius: 10px;
     margin-bottom: 40px;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); /* 緑色の光るシャドウ */
+    box-shadow: 0 0 20px rgba(0, 160, 255, 0.3); /* 水色系の光るシャドウ */
     transition: opacity 0.5s ease-in-out; /* フェードイン/アウトのトランジション */
 }
 
@@ -106,7 +106,7 @@ main {
 .content-section h2 {
     font-size: 2.5em;
     margin-bottom: 30px;
-    color: #0f0; /* 緑色 */
+    color: #00bfff; /* 水色 */
 }
 
 .content-section p {
@@ -124,18 +124,18 @@ main {
 }
 
 .artwork-item {
-    background-color: rgba(255, 255, 255, 0.05); /* アイテムの背景 */
+    background-color: rgba(0, 0, 0, 0.5); /* アイテムの背景をより濃い黒に */
     border-radius: 8px;
     padding: 15px;
     text-align: center;
     width: 300px; /* アイテムの幅 */
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); /* 緑色のシャドウ */
+    box-shadow: 0 0 15px rgba(0, 160, 255, 0.2); /* 水色系のシャドウ */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .artwork-item:hover {
     transform: translateY(-5px); /* ホバーで少し浮き上がる */
-    box-shadow: 0 0 25px rgba(0, 255, 0, 0.5); /* ホバーでシャドウを強調 */
+    box-shadow: 0 0 25px rgba(0, 160, 255, 0.5); /* ホバーでシャドウを強調 */
 }
 
 .artwork-item img {
