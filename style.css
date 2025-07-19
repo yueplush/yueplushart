@@ -49,8 +49,8 @@ header {
     margin-top: 20px; /* 上部に余白 */
     max-width: 960px; /* コンテンツの幅に合わせる */
     width: 100%; /* max-widthが適用されるように */
-    border-radius: 15px; /* 角を丸く */
-    padding: 10px 0; /* 上下のパディングを調整 */
+    border-radius: 10px; /* 角を丸く */
+    padding: 10px 20px; /* 上下10px、左右20pxのパディング */
     position: fixed; /* 画面上部に固定 */
     top: 0;
     left: 50%; /* 左端を中央に */
