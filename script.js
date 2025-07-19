@@ -1,22 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createBubbles();
+    createFireflyAnimation();
 });
 
-function createBubbles() {
-    const container = document.querySelector('.background-animation');
-    if (!container) return;
-    for (let i = 0; i < 25; i++) {
-        const bubble = document.createElement('span');
-        bubble.className = 'bubble';
-        const size = Math.random() * 40 + 20;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${Math.random() * 100}%`;
-        bubble.style.setProperty('--duration', `${15 + Math.random() * 15}s`);
-        bubble.style.animationDelay = `${-Math.random() * 30}s`;
-        container.appendChild(bubble);
+function createFireflyAnimation() {
+    const canvas = document.getElementById('firefly-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const fireflies = [];
+    const COUNT = 60;
+
+    function createFirefly() {
+        return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            size: Math.random() * 2 + 1,
+            phase: Math.random() * Math.PI * 2,
+        };
+    }
+
+    for (let i = 0; i < COUNT; i++) {
+        fireflies.push(createFirefly());
+    }
+
+    function update(f) {
+        f.x += f.vx;
+        f.y += f.vy;
+        f.phase += 0.02;
+
+        if (f.x < -10) f.x = width + 10;
+        else if (f.x > width + 10) f.x = -10;
+        if (f.y < -10) f.y = height + 10;
+        else if (f.y > height + 10) f.y = -10;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, width, height);
+
+        for (const f of fireflies) {
+            const flicker = 0.5 + 0.5 * Math.sin(f.phase);
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(255, 255, 200, ${0.3 + 0.7 * flicker})`;
+            ctx.shadowColor = 'rgba(255, 255, 200, 0.8)';
+            ctx.shadowBlur = 8 * flicker;
+            ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            update(f);
+        }
+
+        requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(draw);
 }
 
 function initNavigation() {
