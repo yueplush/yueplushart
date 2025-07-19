@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createFireflyAnimation();
+    createGeometricAnimation();
 });
 
-function createFireflyAnimation() {
-    const canvas = document.getElementById('firefly-canvas');
+function createGeometricAnimation() {
+    const canvas = document.getElementById('geo-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
@@ -16,53 +16,37 @@ function createFireflyAnimation() {
     window.addEventListener('resize', resize);
     resize();
 
-    const fireflies = [];
-    const COUNT = 60;
-
-    function createFirefly() {
-        return {
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            size: Math.random() * 2 + 1,
-            phase: Math.random() * Math.PI * 2,
-        };
-    }
-
-    for (let i = 0; i < COUNT; i++) {
-        fireflies.push(createFirefly());
-    }
-
-    function update(f) {
-        f.x += f.vx;
-        f.y += f.vy;
-        f.phase += 0.02;
-
-        if (f.x < -10) f.x = width + 10;
-        else if (f.x > width + 10) f.x = -10;
-        if (f.y < -10) f.y = height + 10;
-        else if (f.y > height + 10) f.y = -10;
-    }
-
+    let t = 0;
     function draw() {
         ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, width, height);
 
-        for (const f of fireflies) {
-            const flicker = 0.5 + 0.5 * Math.sin(f.phase);
-            ctx.beginPath();
-            ctx.fillStyle = `rgba(255, 255, 200, ${0.3 + 0.7 * flicker})`;
-            ctx.shadowColor = 'rgba(255, 255, 200, 0.8)';
-            ctx.shadowBlur = 8 * flicker;
-            ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
+        const cx = width / 2;
+        const cy = height / 2;
+        const maxR = Math.min(width, height) / 3;
+        const layers = 8;
 
-            update(f);
+        for (let i = 0; i < layers; i++) {
+            const radius = (i + 1) / layers * maxR;
+            const sides = 3 + i;
+            const angleStep = (Math.PI * 2) / sides;
+            ctx.beginPath();
+            for (let j = 0; j < sides; j++) {
+                const angle = j * angleStep + t * 0.002 * (i + 1);
+                const x = cx + radius * Math.cos(angle);
+                const y = cy + radius * Math.sin(angle);
+                if (j === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            const hue = (t / 2 + i * 30) % 360;
+            ctx.strokeStyle = `hsl(${hue}, 70%, 60%)`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
         }
 
+        t += 1;
         requestAnimationFrame(draw);
     }
 

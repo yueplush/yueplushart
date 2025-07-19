@@ -21,7 +21,7 @@ body {
     overflow: hidden; /* はみ出さないように */
 }
 
-#firefly-canvas {
+#geo-canvas {
     position: absolute;
     top: 0;
     left: 0;
