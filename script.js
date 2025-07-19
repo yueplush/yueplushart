@@ -1,77 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createFireflyAnimation('.background-animation', {
-        count: 40,
-        minDepth: 0.3,
-        maxDepth: 1,
-        speed: 0.6
-    });
-    createFireflyAnimation('.foreground-animation', {
-        count: 20,
-        minDepth: 0.1,
-        maxDepth: 0.4,
-        speed: 1
-    });
     initArtworkFilters();
     initLightbox();
 });
-
-function createFireflyAnimation(selector, opts = {}) {
-    const container = document.querySelector(selector);
-    if (!container) return;
-
-    const COUNT = opts.count || 40;
-    const minDepth = opts.minDepth ?? 0.3;
-    const maxDepth = opts.maxDepth ?? 1;
-    const speed = opts.speed ?? 0.6;
-    const flies = [];
-
-    for (let i = 0; i < COUNT; i++) {
-        const el = document.createElement('div');
-        el.className = 'firefly';
-        container.appendChild(el);
-        const size = Math.random() * 4 + 4;
-        const hue = Math.floor(Math.random() * 60 + 40);
-        el.style.width = `${size}px`;
-        el.style.height = `${size}px`;
-        el.style.background = `radial-gradient(circle, hsla(${hue},100%,70%,1) 0%, hsla(${hue},100%,70%,0.3) 60%, hsla(${hue},100%,70%,0) 100%)`;
-        el.style.boxShadow = `0 0 6px 2px hsla(${hue},100%,65%,0.8)`;
-        const depth = Math.random() * (maxDepth - minDepth) + minDepth;
-        flies.push({
-            el,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            z: depth,
-            vx: (Math.random() - 0.5) * speed * depth,
-            vy: (Math.random() - 0.5) * speed * depth
-        });
-    }
-
-    function animate() {
-        flies.forEach(f => {
-            f.x += f.vx;
-            f.y += f.vy;
-            f.vx += (Math.random() - 0.5) * 0.02;
-            f.vy += (Math.random() - 0.5) * 0.02;
-            const max = 0.3 * f.z;
-            if (f.vx > max) f.vx = max;
-            if (f.vx < -max) f.vx = -max;
-            if (f.vy > max) f.vy = max;
-            if (f.vy < -max) f.vy = -max;
-            if (f.x < -50) f.x = window.innerWidth + 50;
-            if (f.x > window.innerWidth + 50) f.x = -50;
-            if (f.y < -50) f.y = window.innerHeight + 50;
-            if (f.y > window.innerHeight + 50) f.y = -50;
-            const scale = 0.5 + (1 - f.z);
-            f.el.style.transform = `translate(${f.x}px, ${f.y}px) scale(${scale})`;
-        });
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
-
 function initNavigation() {
     const navLinks = document.querySelectorAll('nav a[data-section]');
     const heroSection = document.getElementById('hero');
