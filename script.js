@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection.addEventListener('click', () => {
         heroSection.classList.remove('visible');
         heroSection.classList.add('hidden');
+        heroSection.addEventListener('transitionend', function handler() {
+            heroSection.style.display = 'none';
+            heroSection.removeEventListener('transitionend', handler);
+        }, { once: true });
+        currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
     });
 
     // Get the order of sections from navigation links
@@ -24,6 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetSectionId = link.dataset.section;
             const targetSection = document.getElementById(targetSectionId);
 
+            // heroセクションがまだ表示されている場合は、それを非表示にする
+            if (heroSection.classList.contains('visible')) {
+                heroSection.classList.remove('visible');
+                heroSection.classList.add('hidden');
+                heroSection.addEventListener('transitionend', function handler() {
+                    heroSection.style.display = 'none';
+                    heroSection.removeEventListener('transitionend', handler);
+                }, { once: true });
+                currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
+            }
+
             if (targetSectionId === currentActiveSectionId) {
                 // Clicking the same section, do nothing
                 return;
@@ -34,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetIndex = sectionOrder.indexOf(targetSectionId);
 
             let incomingDirection;
-            if (currentActiveSectionId === 'hero') {
-                // Coming from hero, default to sliding in from right
+            // heroからコンテンツへの初回遷移時は常に右からスライドイン
+            if (currentActiveSectionId === '' || currentActiveSectionId === 'hero') {
                 incomingDirection = 'right';
             } else {
                 if (targetIndex < currentIndex) {
@@ -47,27 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Hide all currently visible sections (including hero if it's visible)
-            document.querySelectorAll('.content-section.visible, #hero.visible').forEach(visibleSection => {
+            // Hide all currently visible sections
+            document.querySelectorAll('.content-section.visible').forEach(visibleSection => {
                 visibleSection.classList.remove('visible');
                 visibleSection.classList.add('hidden');
 
                 // Apply transform for the outgoing section to slide out in the opposite direction of incoming
-                if (visibleSection.id !== 'hero') { // Hero just fades out
-                    if (incomingDirection === 'right') { // If new section slides in from right, old one slides out to left
-                        visibleSection.style.transform = 'translateX(-100%)';
-                    } else { // If new section slides in from left, old one slides out to right
-                        visibleSection.style.transform = 'translateX(100%)';
-                    }
+                if (incomingDirection === 'right') { // If new section slides in from right, old one slides out to left
+                    visibleSection.style.transform = 'translateX(-100%)';
+                } else { // If new section slides in from left, old one slides out to right
+                    visibleSection.style.transform = 'translateX(100%)';
                 }
 
                 visibleSection.addEventListener('transitionend', function handler() {
-                    if (visibleSection.id !== 'hero') {
-                        visibleSection.style.display = 'none';
-                        visibleSection.style.transform = ''; // Reset transform for next time it might be shown
-                    }
+                    visibleSection.style.display = 'none';
+                    visibleSection.style.transform = ''; // Reset transform for next time it might be shown
                     visibleSection.removeEventListener('transitionend', handler);
-                }, { once: true }); // Use { once: true } to automatically remove the listener
+                }, { once: true });
             });
 
             // Show the new section
@@ -85,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetSection.classList.remove('hidden');
                     targetSection.classList.add('visible');
                     targetSection.style.transform = 'translateX(0)'; // Slide into view
-                }, 50); // Slightly longer delay to ensure transform is set before transition
+                }, 100); // 遅延を少し長く (100ms)
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
