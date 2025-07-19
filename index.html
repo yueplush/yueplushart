@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artist Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background-animation"></div>
     <header>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#my-artwork">My Artwork</a></li>
-                <li><a href="#commission">Commission</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#network-link">Network Link</a></li>
+                <li><a href="#about" data-section="about">About</a></li>
+                <li><a href="#my-artwork" data-section="my-artwork">My Artwork</a></li>
+                <li><a href="#commission" data-section="commission">Commission</a></li>
+                <li><a href="#contact" data-section="contact">Contact</a></li>
+                <li><a href="#network-link" data-section="network-link">Network Link</a></li>
                 <li><button class="patreon-button">Patreon</button></li>
             </ul>
         </nav>
@@ -27,32 +28,49 @@
             <p>Explore my art and connect with me.</p>
         </section>
 
-        <section id="about" class="content-section">
+        <section id="about" class="content-section hidden">
             <h2>About Me</h2>
             <p>こんにちは！私は[あなたの名前]です。デジタルアートを中心に、幻想的で感情豊かな作品を制作しています。私の作品を通して、見る人にインスピレーションと感動を与えたいと願っています。</p>
             <p>幼い頃から絵を描くことに情熱を注ぎ、様々な技法やスタイルを探求してきました。特に、光と影の表現、そして色彩の組み合わせにこだわり、独自の視覚言語を築いています。</p>
             <p>このポートフォリオでは、私のこれまでの作品や進行中のプロジェクトをご覧いただけます。ご質問やコラボレーションのご依頼がありましたら、お気軽にお問い合わせください。</p>
         </section>
 
-        <section id="my-artwork" class="content-section">
+        <section id="my-artwork" class="content-section hidden">
             <h2>My Artwork</h2>
-            <p>ここに作品ギャラリーが表示されます。</p>
-            <!-- 後で作品画像を追加します -->
+            <div class="artwork-gallery">
+                <div class="artwork-item">
+                    <img src="https://via.placeholder.com/300x200?text=Artwork+1" alt="Artwork 1">
+                    <p>作品タイトル 1</p>
+                </div>
+                <div class="artwork-item">
+                    <img src="https://via.placeholder.com/300x200?text=Artwork+2" alt="Artwork 2">
+                    <p>作品タイトル 2</p>
+                </div>
+                <div class="artwork-item">
+                    <img src="https://via.placeholder.com/300x200?text=Artwork+3" alt="Artwork 3">
+                    <p>作品タイトル 3</p>
+                </div>
+                <div class="artwork-item">
+                    <img src="https://via.placeholder.com/300x200?text=Artwork+4" alt="Artwork 4">
+                    <p>作品タイトル 4</p>
+                </div>
+                <!-- 必要に応じてさらに作品を追加 -->
+            </div>
         </section>
 
-        <section id="commission" class="content-section">
+        <section id="commission" class="content-section hidden">
             <h2>Commission</h2>
             <p>コミッションに関する情報や依頼方法をここに記載します。</p>
             <!-- 後で詳細を追加します -->
         </section>
 
-        <section id="contact" class="content-section">
+        <section id="contact" class="content-section hidden">
             <h2>Contact</h2>
             <p>お問い合わせフォームや連絡先情報をここに記載します。</p>
             <!-- 後でフォームなどを追加します -->
         </section>
 
-        <section id="network-link" class="content-section">
+        <section id="network-link" class="content-section hidden">
             <h2>Network Link</h2>
             <p>SNSや他のプラットフォームへのリンクをここに記載します。</p>
             <!-- 後でリンクを追加します -->
