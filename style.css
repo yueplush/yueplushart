@@ -337,6 +337,12 @@ main {
     margin-left: 1.5rem;
 }
 
+@media (min-width: 768px) {
+    #commission .commission-content {
+        margin-left: 3rem;
+    }
+}
+
 #commission .commission-heading {
     font-weight: bold;
     color: #ffcc00;
