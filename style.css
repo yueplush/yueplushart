@@ -257,6 +257,8 @@ main {
         border-radius: 0;
         left: 0;
         transform: none;
+        background-color: transparent; /* スマホでは黒背景を除去 */
+        box-shadow: none;
     }
 
     header nav {
@@ -266,6 +268,7 @@ main {
 
     .menu-toggle {
         display: block;
+        font-size: 2em; /* ハンバーガーメニューを少し大きく */
     }
 
     nav ul {
@@ -279,10 +282,17 @@ main {
         padding: 10px 0;
         display: none;
         margin: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
     nav.open ul {
         display: flex;
+        opacity: 1;
+    }
+
+    nav.closing ul {
+        opacity: 0;
     }
 
     nav ul li {
