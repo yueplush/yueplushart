@@ -95,10 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Force reflow to ensure initial transform is applied before transition
                 targetSection.offsetWidth; 
 
-                // Trigger both opacity and transform transitions simultaneously
-                targetSection.classList.remove('hidden');
-                targetSection.classList.add('visible');
-                targetSection.style.transform = 'translateX(0)'; // Slide into view
+                // A small delay to ensure the initial transform is applied before the transition starts
+                setTimeout(() => {
+                    targetSection.classList.remove('hidden');
+                    targetSection.classList.add('visible');
+                    targetSection.style.transform = 'translateX(0)'; // Slide into view
+                }, 100); // 遅延を少し長く (100ms) に戻す
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
