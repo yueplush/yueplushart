@@ -42,20 +42,33 @@
 
         <section id="my-artwork" class="content-section hidden">
             <h2>My Artwork</h2>
+            <div class="artwork-filters">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="sfw">SFW Art</button>
+                <button class="filter-btn" data-filter="suggestive">Suggestive Art</button>
+                <button class="filter-btn" data-filter="3d">3D Model</button>
+                <button class="filter-btn" data-filter="ocs">OCs</button>
+            </div>
+            <div class="sub-filters hidden">
+                <button class="sub-btn" data-sub="bubbles">Bubbles Related</button>
+                <button class="sub-btn" data-sub="balloons">Balloons Related</button>
+                <button class="sub-btn" data-sub="pooltoy">Pooltoy Related</button>
+                <button class="sub-btn" data-sub="other">Other</button>
+            </div>
             <div class="artwork-gallery">
-                <div class="artwork-item">
+                <div class="artwork-item" data-tags="sfw bubbles">
                     <img src="https://via.placeholder.com/300x200?text=Artwork+1" alt="Artwork 1">
                     <p>Artwork Title 1</p>
                 </div>
-                <div class="artwork-item">
+                <div class="artwork-item" data-tags="sfw balloons">
                     <img src="https://via.placeholder.com/300x200?text=Artwork+2" alt="Artwork 2">
                     <p>Artwork Title 2</p>
                 </div>
-                <div class="artwork-item">
+                <div class="artwork-item" data-tags="suggestive pooltoy ocs">
                     <img src="https://via.placeholder.com/300x200?text=Artwork+3" alt="Artwork 3">
                     <p>Artwork Title 3</p>
                 </div>
-                <div class="artwork-item">
+                <div class="artwork-item" data-tags="3d suggestive other">
                     <img src="https://via.placeholder.com/300x200?text=Artwork+4" alt="Artwork 4">
                     <p>Artwork Title 4</p>
                 </div>
@@ -129,6 +142,14 @@
         </section>
 
     </main>
+
+    <div id="suggestive-popup" class="popup hidden">
+        <div class="popup-content">
+            <p>Are you an adult? Check the box below to view suggestive art.</p>
+            <label><input type="checkbox" id="adult-check"> I am 18 or older.</label>
+            <button id="confirm-adult" disabled>Confirm</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
