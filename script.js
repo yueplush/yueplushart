@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     targetSection.classList.remove('hidden');
                     targetSection.classList.add('visible');
-                }, 10); // 短い遅延でトランジションをトリガー
+                }, 250); // 人間が不快にならない程度の遅延 (0.25秒)
             }
         });
     });
