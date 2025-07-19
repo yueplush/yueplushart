@@ -79,10 +79,37 @@ function initNavigation() {
 
     heroSection.addEventListener('click', () => showSection(null));
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
-            nav.classList.toggle('open');
+    const menu = nav.querySelector('ul');
+
+    function openMenu() {
+        menu.style.display = 'flex';
+        void menu.offsetWidth; // reflow for transition
+        nav.classList.add('open');
+    }
+
+    function closeMenu() {
+        if (!nav.classList.contains('open')) return;
+        nav.classList.add('closing');
+        nav.classList.remove('open');
+        menu.addEventListener('transitionend', function handler(e) {
+            if (e.target === menu) {
+                menu.style.display = 'none';
+                nav.classList.remove('closing');
+                menu.removeEventListener('transitionend', handler);
+            }
         });
+    }
+
+    function toggleMenu() {
+        if (nav.classList.contains('open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleMenu);
     }
 
     navLinks.forEach(link => {
@@ -91,7 +118,7 @@ function initNavigation() {
             e.preventDefault();
             showSection(target);
             if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
+                closeMenu();
             }
         });
     });
