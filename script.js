@@ -1,73 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const backgroundAnimation = document.querySelector('.background-animation');
-    const navLinks = document.querySelectorAll('nav ul li a:not(.patreon-button)');
+    const navLinks = document.querySelectorAll('nav a[data-section]');
     const heroSection = document.getElementById('hero');
+    let activeSection = heroSection;
 
-    let currentActiveSectionId = 'hero'; // Track the currently active section ID
-
-    // Initial display: hero section only
-    heroSection.classList.add('visible');
-
-    // hero section disappears on click
-    heroSection.addEventListener('click', () => {
-        if (heroSection.classList.contains('visible')) {
-            heroSection.classList.remove('visible');
-            heroSection.classList.add('hidden');
-            heroSection.addEventListener('transitionend', function handler() {
-                heroSection.style.display = 'none';
-                heroSection.removeEventListener('transitionend', handler);
-            }, { once: true });
-            currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
-        }
+    // Hide all content sections initially
+    document.querySelectorAll('.content-section.hidden').forEach(sec => {
+        sec.style.display = 'none';
     });
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetSectionId = link.dataset.section;
-            const targetSection = document.getElementById(targetSectionId);
+    heroSection.classList.add('visible');
 
-            // クリックされたセクションが既にアクティブな場合は何もしない
-            if (targetSectionId === currentActiveSectionId) {
-                return;
-            }
-
-            // heroセクションがまだ表示されている場合は、それを非表示にする
-            if (heroSection.classList.contains('visible')) {
-                heroSection.classList.remove('visible');
-                heroSection.classList.add('hidden');
-                heroSection.addEventListener('transitionend', function handler() {
-                    heroSection.style.display = 'none';
-                    heroSection.removeEventListener('transitionend', handler);
-                }, { once: true });
-                currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
-            }
-
-            // 現在表示されているコンテンツセクションを非表示にする
-            document.querySelectorAll('.content-section.visible').forEach(visibleSection => {
-                visibleSection.classList.remove('visible');
-                visibleSection.classList.add('hidden');
-
-                // Set display: none after transition completes
-                visibleSection.addEventListener('transitionend', function handler() {
-                    visibleSection.style.display = 'none';
-                    visibleSection.removeEventListener('transitionend', handler);
-                }, { once: true });
+    function fadeOut(element) {
+        return new Promise(resolve => {
+            element.classList.remove('visible');
+            element.classList.add('hidden');
+            element.addEventListener('transitionend', function handler(e) {
+                if (e.target === element) {
+                    element.style.display = 'none';
+                    element.removeEventListener('transitionend', handler);
+                    resolve();
+                }
             });
+        });
+    }
 
-            // 新しいセクションを表示
-            if (targetSection) {
-                targetSection.style.display = 'block';
+    function fadeIn(element) {
+        element.style.display = 'block';
+        // Force reflow to apply the new display before removing the class
+        void element.offsetWidth;
+        return new Promise(resolve => {
+            element.classList.remove('hidden');
+            element.classList.add('visible');
+            element.addEventListener('transitionend', function handler(e) {
+                if (e.target === element) {
+                    element.removeEventListener('transitionend', handler);
+                    resolve();
+                }
+            });
+        });
+    }
 
-                // Force reflow
-                targetSection.offsetWidth; 
+    async function showSection(section) {
+        if (activeSection === section) return;
+        if (activeSection) await fadeOut(activeSection);
+        activeSection = section;
+        if (section) await fadeIn(section);
+    }
 
-                // Trigger transition
-                targetSection.classList.remove('hidden');
-                targetSection.classList.add('visible');
+    heroSection.addEventListener('click', () => showSection(null));
 
-                currentActiveSectionId = targetSectionId; // Update active section
-            }
+    navLinks.forEach(link => {
+        const target = document.getElementById(link.dataset.section);
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            showSection(target);
         });
     });
 });
