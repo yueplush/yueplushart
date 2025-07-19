@@ -95,17 +95,23 @@ nav ul li a:hover {
 .patreon-button {
     background-color: #00bfff; /* 水色っぽい青 */
     color: #fff;
-    border: none;
-    padding: 8px 18px; /* パディングを調整 */
+    border: 2px solid #00bfff; /* 枠線を追加 */
+    padding: 8px 18px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 0.9em; /* フォントサイズを小さく */
-    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    text-decoration: none; /* 下線を削除 */
+    display: inline-block; /* パディングが適用されるように */
+    transition: background-color 0.3s ease, color 0.3s ease; /* スムーズなトランジション */
 }
 
 .patreon-button:hover {
-    background-color: #009acd; /* ホバー時の色 */
+    background-color: #fff; /* ホバー時に背景を白に */
+    color: #00bfff; /* ホバー時に文字色を水色に */
+    border-color: #fff; /* ホバー時に枠線を白に */
+    transform: scale(1.05); /* 少し拡大 */
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.7); /* より強調された水色系のシャドウ */
 }
 
 main {
