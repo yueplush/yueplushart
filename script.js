@@ -16,37 +16,38 @@ function createGeometricAnimation() {
     window.addEventListener('resize', resize);
     resize();
 
+    // Fill initial background
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     let t = 0;
     function draw() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
         ctx.fillRect(0, 0, width, height);
 
         const cx = width / 2;
         const cy = height / 2;
-        const maxR = Math.min(width, height) / 3;
-        const layers = 8;
+        const maxR = Math.min(width, height) * 0.4;
+        const layers = 10;
 
         for (let i = 0; i < layers; i++) {
-            const radius = (i + 1) / layers * maxR;
-            const sides = 3 + i;
-            const angleStep = (Math.PI * 2) / sides;
+            const progress = i / layers;
+            const radius = maxR * progress * (1 + 0.1 * Math.sin(t * 0.02 + i));
+            const sides = 5 + (i % 5);
             ctx.beginPath();
-            for (let j = 0; j < sides; j++) {
-                const angle = j * angleStep + t * 0.002 * (i + 1);
+            for (let j = 0; j <= sides; j++) {
+                const angle = t * 0.01 * (i + 1) + j * Math.PI * 2 / sides;
                 const x = cx + radius * Math.cos(angle);
                 const y = cy + radius * Math.sin(angle);
-                if (j === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
+                j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
             }
-            ctx.closePath();
-            const hue = (t / 2 + i * 30) % 360;
-            ctx.strokeStyle = `hsl(${hue}, 70%, 60%)`;
-            ctx.lineWidth = 1.5;
+            const hue = (t + i * 36) % 360;
+            ctx.strokeStyle = `hsla(${hue}, 70%, 55%, 0.8)`;
+            ctx.lineWidth = 1.2;
             ctx.stroke();
         }
 
-        t += 1;
+        t += 0.5;
         requestAnimationFrame(draw);
     }
 
