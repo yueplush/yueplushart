@@ -177,15 +177,20 @@ function initArtworkFilters() {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentFilter = btn.dataset.filter;
+
+            // Reset sub category selection when switching filters
+            subBtns.forEach(b => b.classList.remove('active'));
+            currentSub = '';
+
             if (currentFilter === 'suggestive' && !adultOk) {
                 showPopup();
             } else {
-                applyFilters();
                 if (currentFilter === 'suggestive') {
                     subFilters.classList.remove('hidden');
                 } else {
                     subFilters.classList.add('hidden');
                 }
+                applyFilters();
             }
         });
     });
@@ -207,6 +212,8 @@ function initArtworkFilters() {
         adultOk = true;
         hidePopup();
         subFilters.classList.remove('hidden');
+        subBtns.forEach(b => b.classList.remove('active'));
+        currentSub = '';
         applyFilters();
     });
 
@@ -236,6 +243,9 @@ function initArtworkFilters() {
             const isSuggestive = tags.includes('suggestive');
 
             let visible = matchesFilter && matchesSub;
+            if (currentFilter === 'suggestive' && !currentSub) {
+                visible = false;
+            }
             if (currentFilter === 'all' && !adultOk && isSuggestive) {
                 visible = false;
             }
