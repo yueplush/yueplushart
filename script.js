@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetSectionId = link.dataset.section;
             const targetSection = document.getElementById(targetSectionId);
 
-            // 現在表示されているセクションをフェードアウト
-            document.querySelectorAll('.content-section.visible').forEach(visibleSection => {
+            // 現在表示されているすべてのセクション（heroを含む）をフェードアウト
+            document.querySelectorAll('.content-section.visible, #hero.visible').forEach(visibleSection => {
                 visibleSection.classList.remove('visible');
                 visibleSection.classList.add('hidden');
                 // アニメーション終了後にdisplay:noneを適用
