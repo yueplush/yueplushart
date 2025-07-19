@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    createGeometricAnimation();
+    createFireflyAnimation();
 });
-
-function createGeometricAnimation() {
-    const canvas = document.getElementById('geo-canvas');
+function createFireflyAnimation() {
+    const canvas = document.getElementById('firefly-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
@@ -16,40 +15,45 @@ function createGeometricAnimation() {
     window.addEventListener('resize', resize);
     resize();
 
-    // Fill initial background
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const fireflies = [];
+    const COUNT = 40;
 
-    let t = 0;
+    for (let i = 0; i < COUNT; i++) {
+        fireflies.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.7,
+            vy: (Math.random() - 0.5) * 0.7,
+            r: Math.random() * 2 + 1,
+            phase: Math.random() * Math.PI * 2
+        });
+    }
+
     function draw() {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         ctx.fillRect(0, 0, width, height);
-
         ctx.globalCompositeOperation = 'lighter';
-        const cx = width / 2;
-        const cy = height / 2;
-        const maxR = Math.min(width, height) * 0.4;
-        const layers = 10;
 
-        for (let i = 0; i < layers; i++) {
-            const progress = i / layers;
-            const radius = maxR * progress * (1 + 0.15 * Math.sin(t * 0.015 + i));
-            const sides = 3 + i;
+        fireflies.forEach(f => {
+            f.x += f.vx;
+            f.y += f.vy;
+            f.phase += 0.05;
+
+            if (f.x < 0 || f.x > width) f.vx *= -1;
+            if (f.y < 0 || f.y > height) f.vy *= -1;
+
+            const glow = (Math.sin(f.phase) + 1) / 2;
+            const radius = f.r + glow * 1.5;
+            const gradient = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, radius);
+            gradient.addColorStop(0, `rgba(255,255,200,${0.8 * glow})`);
+            gradient.addColorStop(1, 'rgba(255,255,200,0)');
+            ctx.fillStyle = gradient;
             ctx.beginPath();
-            for (let j = 0; j <= sides; j++) {
-                const angle = t * 0.008 * (i + 2) + j * Math.PI * 2 / sides;
-                const x = cx + radius * Math.cos(angle);
-                const y = cy + radius * Math.sin(angle);
-                j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-            }
-            const hue = (t * 0.5 + i * 40) % 360;
-            ctx.strokeStyle = `hsla(${hue}, 70%, 60%, 0.7)`;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-        }
+            ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
 
-        t += 0.4;
+        ctx.globalCompositeOperation = 'source-over';
         requestAnimationFrame(draw);
     }
 
