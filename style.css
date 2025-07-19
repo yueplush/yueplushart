@@ -19,8 +19,18 @@ body {
     background-size: 200% 200%;
     filter: hue-rotate(0deg);
     animation: gradientShift 15s ease infinite, hueRotate 25s linear infinite;
-    z-index: -1; /* 他のコンテンツの下に配置 */
+    z-index: -2; /* 最背面に配置 */
     overflow: hidden; /* はみ出さないように */
+}
+
+#bubble-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; /* 背景とコンテンツの間 */
 }
 
 
