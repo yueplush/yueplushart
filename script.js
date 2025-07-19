@@ -169,6 +169,9 @@ function initArtworkFilters() {
     let currentFilter = 'all';
     let currentSub = '';
 
+    // Initially hide suggestive artwork from the "ALL" view
+    applyFilters();
+
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
@@ -230,7 +233,14 @@ function initArtworkFilters() {
             const tags = item.dataset.tags.split(' ');
             const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
             const matchesSub = !currentSub || tags.includes(currentSub);
-            item.style.display = (matchesFilter && matchesSub) ? 'block' : 'none';
+            const isSuggestive = tags.includes('suggestive');
+
+            let visible = matchesFilter && matchesSub;
+            if (currentFilter === 'all' && !adultOk && isSuggestive) {
+                visible = false;
+            }
+
+            item.style.display = visible ? 'block' : 'none';
         });
     }
 }
