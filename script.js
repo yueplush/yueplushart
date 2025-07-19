@@ -91,16 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetSection.style.transform = 'translateX(-100%)'; // Start from left
                 }
                 targetSection.style.display = 'block'; // Make it displayable for transition
-                targetSection.classList.remove('hidden'); // Make it visible (opacity 1)
-                targetSection.classList.add('visible'); // Add visible class for transition
 
-                // Force reflow to ensure initial transform and opacity are applied
+                // Force reflow to ensure initial transform is applied before transition
                 targetSection.offsetWidth; 
 
-                // Trigger the slide-in animation after a very short delay
-                setTimeout(() => {
-                    targetSection.style.transform = 'translateX(0)'; // Slide into view
-                }, 500); // CSSトランジションに合わせて遅延 (0.5秒)
+                // Trigger both opacity and transform transitions simultaneously
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('visible');
+                targetSection.style.transform = 'translateX(0)'; // Slide into view
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
