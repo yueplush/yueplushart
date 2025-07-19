@@ -238,6 +238,8 @@ main {
     width: 300px; /* アイテムの幅 */
     box-shadow: 0 0 15px rgba(0, 160, 255, 0.2); /* 水色系のシャドウ */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .artwork-item:hover {
@@ -255,6 +257,38 @@ main {
 .artwork-item p {
     font-size: 1em;
     color: #ccc;
+}
+
+.art-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.art-info h3 {
+    margin: 0;
+    font-size: 1em;
+    color: #0f0;
+}
+
+.art-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #ddd;
+}
+
+.artwork-item.square {
+    width: 200px;
+}
+
+.artwork-item.square img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
 @media (max-width: 600px) {
@@ -426,4 +460,55 @@ main {
 .popup-content button[disabled] {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* Lightbox styles */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.lightbox.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    background: #111;
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.lightbox-content img {
+    max-width: 80vw;
+    max-height: 80vh;
+    border-radius: 5px;
+}
+
+.lightbox-text {
+    max-width: 300px;
+}
+
+.lightbox-text h3 {
+    color: #0f0;
+    margin-top: 0;
+}
+
+.lightbox-text p {
+    margin-bottom: 0;
 }

@@ -72,6 +72,13 @@
                     <img src="https://via.placeholder.com/300x200?text=Artwork+4" alt="Artwork 4">
                     <p>Artwork Title 4</p>
                 </div>
+                <div class="artwork-item square" data-tags="sfw" data-title="devil" data-desc="or cosplay something">
+                    <img src="https://yueplush-artwork.netlify.app/devil_optimized.webp" alt="devil">
+                    <div class="art-info">
+                        <h3>devil</h3>
+                        <p>or cosplay something</p>
+                    </div>
+                </div>
                 <!-- 必要に応じてさらに作品を追加 -->
             </div>
         </section>
@@ -148,6 +155,15 @@
             <p>Are you an adult? Check the box below to view suggestive art.</p>
             <label><input type="checkbox" id="adult-check"> I am 18 or older.</label>
             <button id="confirm-adult" disabled>Confirm</button>
+        </div>
+    </div>
+    <div id="lightbox" class="lightbox hidden">
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-text">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-desc"></p>
+            </div>
         </div>
     </div>
 
