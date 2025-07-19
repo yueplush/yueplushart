@@ -160,6 +160,7 @@ main {
     box-shadow: 0 0 20px rgba(0, 160, 255, 0.3); /* 水色系の光るシャドウ */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* フェードイン/アウトと左右移動のトランジション */
     backdrop-filter: blur(8px); /* 背景を少しぼかす */
+    will-change: transform, opacity; /* レイヤー処理の最適化 */
 }
 
 .content-section.hidden {
