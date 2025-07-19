@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     targetSection.classList.remove('hidden');
                     targetSection.classList.add('visible');
+                    // 新しいセクションが表示されたら、そのセクションまでスムーズにスクロール
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 10); // 短い遅延でトランジションをトリガー
             }
         });
