@@ -21,9 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Get the order of sections from navigation links
-    const sectionOrder = Array.from(navLinks).map(link => link.dataset.section);
-
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -51,54 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 visibleSection.classList.remove('visible');
                 visibleSection.classList.add('hidden');
 
-                // Apply transform for the outgoing section to slide out in the opposite direction of incoming
-                const currentIndex = sectionOrder.indexOf(currentActiveSectionId);
-                const targetIndex = sectionOrder.indexOf(targetSectionId);
-
-                let outgoingDirection;
-                if (currentActiveSectionId === '' || currentActiveSectionId === 'hero') {
-                    outgoingDirection = 'left';
-                } else if (targetIndex < currentIndex) {
-                    outgoingDirection = 'left';
-                } else { 
-                    outgoingDirection = 'right';
-                }
-
-                if (outgoingDirection === 'left') {
-                    visibleSection.style.transform = 'translateX(-100%)';
-                } else {
-                    visibleSection.style.transform = 'translateX(100%)';
-                }
-
                 // Set display: none after transition completes
                 visibleSection.addEventListener('transitionend', function handler() {
                     visibleSection.style.display = 'none';
-                    visibleSection.style.transform = ''; // Reset transform
                     visibleSection.removeEventListener('transitionend', handler);
                 }, { once: true });
             });
 
             // 新しいセクションを表示
             if (targetSection) {
-                // Determine direction for the incoming section
-                const currentIndex = sectionOrder.indexOf(currentActiveSectionId);
-                const targetIndex = sectionOrder.indexOf(targetSectionId);
-
-                let incomingDirection;
-                if (currentActiveSectionId === '' || currentActiveSectionId === 'hero') {
-                    incomingDirection = 'right';
-                } else if (targetIndex < currentIndex) {
-                    incomingDirection = 'right';
-                } else { 
-                    incomingDirection = 'left';
-                }
-
-                // Set initial position based on incoming direction before making it visible
-                if (incomingDirection === 'right') {
-                    targetSection.style.transform = 'translateX(100%)';
-                } else {
-                    targetSection.style.transform = 'translateX(-100%)';
-                }
                 targetSection.style.display = 'block';
 
                 // Force reflow
@@ -107,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Trigger transition
                 targetSection.classList.remove('hidden');
                 targetSection.classList.add('visible');
-                targetSection.style.transform = 'translateX(0)';
 
                 currentActiveSectionId = targetSectionId; // Update active section
             }
