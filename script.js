@@ -33,14 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentIndex = sectionOrder.indexOf(currentActiveSectionId);
             const targetIndex = sectionOrder.indexOf(targetSectionId);
 
-            let incomingDirection = 'right'; // Default: slide in from right
+            let incomingDirection;
             if (currentActiveSectionId === 'hero') {
-                // If coming from hero, always slide in from right for content sections
+                // Coming from hero, default to sliding in from right
                 incomingDirection = 'right';
-            } else if (targetIndex < currentIndex) {
-                incomingDirection = 'left'; // Target is to the left of current
-            } else if (targetIndex > currentIndex) {
-                incomingDirection = 'right'; // Target is to the right of current
+            } else {
+                if (targetIndex < currentIndex) {
+                    // Clicked left of current -> new content slides in from RIGHT
+                    incomingDirection = 'right';
+                } else { // targetIndex > currentIndex
+                    // Clicked right of current -> new content slides in from LEFT
+                    incomingDirection = 'left';
+                }
             }
 
             // Hide all currently visible sections (including hero if it's visible)
