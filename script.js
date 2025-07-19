@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Hide all currently visible sections
+            let outgoingTransitionPromises = [];
             document.querySelectorAll('.content-section.visible').forEach(visibleSection => {
                 visibleSection.classList.remove('visible');
                 visibleSection.classList.add('hidden');
@@ -75,35 +76,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     visibleSection.style.transform = 'translateX(100%)';
                 }
 
-                visibleSection.addEventListener('transitionend', function handler() {
-                    visibleSection.style.display = 'none';
-                    visibleSection.style.transform = ''; // Reset transform for next time it might be shown
-                    visibleSection.removeEventListener('transitionend', handler);
-                }, { once: true });
+                // Create a promise that resolves when the transition ends
+                let transitionPromise = new Promise(resolve => {
+                    visibleSection.addEventListener('transitionend', function handler() {
+                        visibleSection.style.display = 'none';
+                        visibleSection.style.transform = ''; // Reset transform for next time it might be shown
+                        visibleSection.removeEventListener('transitionend', handler);
+                        resolve();
+                    }, { once: true });
+                });
+                outgoingTransitionPromises.push(transitionPromise);
             });
 
-            // Show the new section
-            if (targetSection) {
-                // Set initial position based on incoming direction before making it visible
-                if (incomingDirection === 'right') {
-                    targetSection.style.transform = 'translateX(100%)'; // Start from right
-                } else {
-                    targetSection.style.transform = 'translateX(-100%)'; // Start from left
-                }
-                targetSection.style.display = 'block'; // Make it displayable for transition
+            // Wait for all outgoing transitions to complete before showing the new section
+            Promise.all(outgoingTransitionPromises).then(() => {
+                // Show the new section
+                if (targetSection) {
+                    // Set initial position based on incoming direction before making it visible
+                    if (incomingDirection === 'right') {
+                        targetSection.style.transform = 'translateX(100%)'; // Start from right
+                    } else {
+                        targetSection.style.transform = 'translateX(-100%)'; // Start from left
+                    }
+                    targetSection.style.display = 'block'; // Make it displayable for transition
 
-                // Force reflow to ensure initial transform is applied before transition
-                targetSection.offsetWidth; 
+                    // Force reflow to ensure initial transform is applied before transition
+                    targetSection.offsetWidth; 
 
-                // A small delay to ensure the initial transform is applied before the transition starts
-                setTimeout(() => {
+                    // Trigger the slide-in animation
                     targetSection.classList.remove('hidden');
                     targetSection.classList.add('visible');
                     targetSection.style.transform = 'translateX(0)'; // Slide into view
-                }, 100); // 遅延を少し長く (100ms) に戻す
 
-                currentActiveSectionId = targetSectionId; // Update active section
-            }
+                    currentActiveSectionId = targetSectionId; // Update active section
+                }
+            });
         });
     });
 });
