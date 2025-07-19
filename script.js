@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initArtworkFilters();
     initLightbox();
+    initBubbleAnimation();
 });
 function initNavigation() {
     const navLinks = document.querySelectorAll('nav a[data-section]');
@@ -243,4 +244,54 @@ function initLightbox() {
             closeLightbox();
         }
     });
+}
+
+function initBubbleAnimation() {
+    const canvas = document.getElementById('bubble-canvas');
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const bubbleCount = 40;
+    const bubbles = [];
+
+    function createBubble() {
+        return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: 5 + Math.random() * 15,
+            speed: 0.5 + Math.random() * 1.5,
+            drift: (Math.random() * 2 - 1) * 0.5,
+            alpha: 0.2 + Math.random() * 0.4
+        };
+    }
+
+    for (let i = 0; i < bubbleCount; i++) {
+        bubbles.push(createBubble());
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+        bubbles.forEach(b => {
+            b.y -= b.speed;
+            b.x += b.drift;
+            if (b.y + b.r < 0) {
+                b.y = height + b.r;
+                b.x = Math.random() * width;
+            }
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${b.alpha})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
 }
