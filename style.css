@@ -41,11 +41,18 @@ body {
 /* .particle スタイルは不要になるため削除 */
 
 header {
-    background-color: rgba(0, 0, 0, 0.7); /* 半透明の黒 */
-    padding: 15px 0;
+    background-color: rgba(0, 0, 0, 0.3); /* 透過した黒 */
+    margin: 20px; /* 上下左右に余白 */
+    border-radius: 15px; /* 角を丸く */
+    padding: 10px 0; /* 上下のパディングを調整 */
     text-align: center;
-    position: relative;
-    z-index: 1;
+    position: fixed; /* 画面上部に固定 */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100; /* 他の要素より手前に */
+    box-shadow: 0 5px 15px rgba(0, 160, 255, 0.2); /* 控えめな水色系のシャドウ */
+    backdrop-filter: blur(5px); /* 背景を少しぼかす */
 }
 
 nav ul {
@@ -65,21 +72,24 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    font-size: 0.9em; /* フォントサイズを小さく */
+    padding: 8px 15px; /* パディングを調整 */
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #0f0; /* 緑基調 */
+    color: #00bfff; /* ホバー時の色を水色に */
 }
 
 .patreon-button {
     background-color: #00bfff; /* 水色っぽい青 */
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 18px; /* パディングを調整 */
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 0.9em; /* フォントサイズを小さく */
     transition: background-color 0.3s ease;
 }
 
@@ -91,7 +101,7 @@ main {
     position: relative;
     z-index: 1;
     text-align: center;
-    padding-top: 100px; /* ヘッダーの下にスペースを確保 */
+    padding-top: 120px; /* ヘッダーの高さと余白を考慮して調整 */
 }
 
 #hero h1 {
