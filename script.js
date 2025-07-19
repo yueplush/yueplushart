@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     createFireflyAnimation();
+    initArtworkFilters();
 });
 
 function createFireflyAnimation() {
@@ -152,4 +153,83 @@ function initNavigation() {
             }
         });
     });
+}
+
+function initArtworkFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const subFilters = document.querySelector('.sub-filters');
+    const subBtns = document.querySelectorAll('.sub-btn');
+    const items = document.querySelectorAll('.artwork-item');
+    const popup = document.getElementById('suggestive-popup');
+    const adultCheck = document.getElementById('adult-check');
+    const confirmBtn = document.getElementById('confirm-adult');
+
+    let adultOk = false;
+    let currentFilter = 'all';
+    let currentSub = '';
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            if (currentFilter === 'suggestive' && !adultOk) {
+                showPopup();
+            } else {
+                applyFilters();
+                if (currentFilter === 'suggestive') {
+                    subFilters.classList.remove('hidden');
+                } else {
+                    subFilters.classList.add('hidden');
+                }
+            }
+        });
+    });
+
+    subBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            subBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSub = btn.dataset.sub;
+            applyFilters();
+        });
+    });
+
+    adultCheck.addEventListener('change', () => {
+        confirmBtn.disabled = !adultCheck.checked;
+    });
+
+    confirmBtn.addEventListener('click', () => {
+        adultOk = true;
+        hidePopup();
+        subFilters.classList.remove('hidden');
+        applyFilters();
+    });
+
+    function showPopup() {
+        popup.classList.remove('hidden');
+        void popup.offsetWidth;
+        popup.classList.add('visible');
+    }
+
+    function hidePopup() {
+        popup.classList.remove('visible');
+        popup.addEventListener('transitionend', function handler(e) {
+            if (e.target === popup) {
+                popup.classList.add('hidden');
+                popup.removeEventListener('transitionend', handler);
+                adultCheck.checked = false;
+                confirmBtn.disabled = true;
+            }
+        });
+    }
+
+    function applyFilters() {
+        items.forEach(item => {
+            const tags = item.dataset.tags.split(' ');
+            const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
+            const matchesSub = !currentSub || tags.includes(currentSub);
+            item.style.display = (matchesFilter && matchesSub) ? 'block' : 'none';
+        });
+    }
 }
