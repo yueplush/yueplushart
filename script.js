@@ -276,7 +276,19 @@ function initLightbox() {
     const title = document.getElementById('lightbox-title');
     const desc = document.getElementById('lightbox-desc');
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
     if (!lightbox) return;
+
+    function closeLightbox() {
+        lightbox.classList.remove('visible');
+        lightbox.addEventListener('transitionend', function handler(ev) {
+            if (ev.target === lightbox) {
+                lightbox.classList.add('hidden');
+                lightbox.removeEventListener('transitionend', handler);
+            }
+        });
+    }
 
     items.forEach(item => {
         item.addEventListener('click', () => {
@@ -291,15 +303,13 @@ function initLightbox() {
         });
     });
 
+    if (isMobile) {
+        img.addEventListener('click', closeLightbox);
+    }
+
     lightbox.addEventListener('click', e => {
         if (e.target === lightbox) {
-            lightbox.classList.remove('visible');
-            lightbox.addEventListener('transitionend', function handler(ev) {
-                if (ev.target === lightbox) {
-                    lightbox.classList.add('hidden');
-                    lightbox.removeEventListener('transitionend', handler);
-                }
-            });
+            closeLightbox();
         }
     });
 }
