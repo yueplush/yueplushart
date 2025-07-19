@@ -266,7 +266,7 @@ function initBubbleAnimation() {
         return {
             x: Math.random() * width,
             y: Math.random() * height,
-            r: 5 + Math.random() * 15,
+            r: 2 + Math.random() * 6,
             speed: 0.5 + Math.random() * 1.5,
             drift: (Math.random() * 2 - 1) * 0.5,
             alpha: 0.2 + Math.random() * 0.4
@@ -286,10 +286,18 @@ function initBubbleAnimation() {
                 b.y = height + b.r;
                 b.x = Math.random() * width;
             }
+            ctx.save();
             ctx.beginPath();
+            const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+            gradient.addColorStop(0, `rgba(255,255,200,${b.alpha})`);
+            gradient.addColorStop(0.7, `rgba(255,255,150,${b.alpha * 0.6})`);
+            gradient.addColorStop(1, 'rgba(255,255,100,0)');
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = `rgba(255,255,150,${b.alpha})`;
+            ctx.shadowBlur = b.r * 2;
             ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,255,${b.alpha})`;
             ctx.fill();
+            ctx.restore();
         });
         requestAnimationFrame(draw);
     }
