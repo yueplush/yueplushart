@@ -71,7 +71,8 @@ header {
     left: 50%; /* 左端を中央に */
     transform: translateX(-50%); /* 自身の幅の半分だけ左にずらす */
     z-index: 100; /* 他の要素より手前に */
-    box-shadow: 0 5px 15px rgba(0, 160, 255, 0.2); /* 控えめな水色系のシャドウ */
+    border: 1px solid rgba(0, 191, 255, 0.8); /* 水色の外枠 */
+    box-shadow: 0 0 12px rgba(0, 191, 255, 0.6), 0 0 25px rgba(0, 191, 255, 0.4); /* 水色に発光 */
     backdrop-filter: blur(5px); /* 背景を少しぼかす */
 }
 
@@ -192,7 +193,8 @@ main {
     background-color: rgba(0, 0, 0, 0.5); /* コンテンツの背景を半透明の黒に (約50%) */
     border-radius: 10px;
     margin-bottom: 40px;
-    box-shadow: 0 0 20px rgba(0, 160, 255, 0.3); /* 水色系の光るシャドウ */
+    border: 1px solid rgba(0, 191, 255, 0.8); /* 水色の外枠 */
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 30px rgba(0, 191, 255, 0.3); /* 発光効果 */
     transition: opacity 0.5s ease-in-out; /* フェードイン/アウトのトランジションのみ */
     backdrop-filter: blur(8px); /* 背景を少しぼかす */
     will-change: opacity; /* レイヤー処理の最適化 */
