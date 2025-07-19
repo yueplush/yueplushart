@@ -35,7 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Hide all currently visible sections
+            // heroセクションがまだ表示されている場合は、それを非表示にする
+            if (heroSection.classList.contains('visible')) {
+                heroSection.classList.remove('visible');
+                heroSection.classList.add('hidden');
+                setTimeout(() => {
+                    heroSection.style.display = 'none';
+                }, 500); // CSS transition duration
+                currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
+            }
+
+            // 現在表示されているコンテンツセクションを非表示にする
             document.querySelectorAll('.content-section.visible').forEach(visibleSection => {
                 visibleSection.classList.remove('visible');
                 visibleSection.classList.add('hidden');
@@ -66,17 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 500); // CSS transition duration
             });
 
-            // heroセクションがまだ表示されている場合は、それを非表示にする
-            if (heroSection.classList.contains('visible')) {
-                heroSection.classList.remove('visible');
-                heroSection.classList.add('hidden');
-                setTimeout(() => {
-                    heroSection.style.display = 'none';
-                }, 500); // CSS transition duration
-                currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
-            }
-
-            // Show the new section after a delay to allow outgoing transitions to start
+            // 新しいセクションを表示
             setTimeout(() => {
                 if (targetSection) {
                     // Determine direction for the incoming section
