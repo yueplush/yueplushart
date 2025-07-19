@@ -136,6 +136,10 @@ main {
     font-size: 1.2em;
 }
 
+.hero-subtitle {
+    font-size: 1em;
+}
+
 .content-section {
     padding: 80px 20px;
     margin: 0 auto;
