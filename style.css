@@ -103,7 +103,8 @@ nav ul li a:hover {
     font-size: 0.9em;
     text-decoration: none; /* 下線を削除 */
     display: inline-block; /* パディングが適用されるように */
-    transition: background-color 0.3s ease, color 0.3s ease; /* スムーズなトランジション */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    z-index: 101; /* 他の要素より手前に */
 }
 
 .patreon-button:hover {
