@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初期表示: heroセクションのみ表示
     heroSection.classList.add('visible');
 
+    // heroセクションがクリックされたら非表示にする
+    heroSection.addEventListener('click', () => {
+        heroSection.classList.remove('visible');
+        heroSection.classList.add('hidden');
+    });
+
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
