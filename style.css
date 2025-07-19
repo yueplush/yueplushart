@@ -177,7 +177,7 @@ main {
 
 .content-section.visible {
     opacity: 1;
-    transform: translateX(0); /* 元の位置 */
+    /* transform: translateX(0); を削除 */
     pointer-events: auto;
 }
 
