@@ -39,9 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (heroSection.classList.contains('visible')) {
                 heroSection.classList.remove('visible');
                 heroSection.classList.add('hidden');
-                setTimeout(() => {
+                heroSection.addEventListener('transitionend', function handler() {
                     heroSection.style.display = 'none';
-                }, 500); // CSS transition duration
+                    heroSection.removeEventListener('transitionend', handler);
+                }, { once: true });
                 currentActiveSectionId = ''; // heroが非表示になったらアクティブセクションをリセット
             }
 
@@ -70,47 +71,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Set display: none after transition completes
-                setTimeout(() => {
+                visibleSection.addEventListener('transitionend', function handler() {
                     visibleSection.style.display = 'none';
                     visibleSection.style.transform = ''; // Reset transform
-                }, 500); // CSS transition duration
+                    visibleSection.removeEventListener('transitionend', handler);
+                }, { once: true });
             });
 
             // 新しいセクションを表示
-            setTimeout(() => {
-                if (targetSection) {
-                    // Determine direction for the incoming section
-                    const currentIndex = sectionOrder.indexOf(currentActiveSectionId);
-                    const targetIndex = sectionOrder.indexOf(targetSectionId);
+            if (targetSection) {
+                // Determine direction for the incoming section
+                const currentIndex = sectionOrder.indexOf(currentActiveSectionId);
+                const targetIndex = sectionOrder.indexOf(targetSectionId);
 
-                    let incomingDirection;
-                    if (currentActiveSectionId === '' || currentActiveSectionId === 'hero') {
-                        incomingDirection = 'right';
-                    } else if (targetIndex < currentIndex) {
-                        incomingDirection = 'right';
-                    } else { 
-                        incomingDirection = 'left';
-                    }
-
-                    // Set initial position based on incoming direction before making it visible
-                    if (incomingDirection === 'right') {
-                        targetSection.style.transform = 'translateX(100%)';
-                    } else {
-                        targetSection.style.transform = 'translateX(-100%)';
-                    }
-                    targetSection.style.display = 'block';
-
-                    // Force reflow
-                    targetSection.offsetWidth; 
-
-                    // Trigger transition
-                    targetSection.classList.remove('hidden');
-                    targetSection.classList.add('visible');
-                    targetSection.style.transform = 'translateX(0)';
-
-                    currentActiveSectionId = targetSectionId; // Update active section
+                let incomingDirection;
+                if (currentActiveSectionId === '' || currentActiveSectionId === 'hero') {
+                    incomingDirection = 'right';
+                } else if (targetIndex < currentIndex) {
+                    incomingDirection = 'right';
+                } else { 
+                    incomingDirection = 'left';
                 }
-            }, 250); // Delay for new section to appear (half of transition duration)
+
+                // Set initial position based on incoming direction before making it visible
+                if (incomingDirection === 'right') {
+                    targetSection.style.transform = 'translateX(100%)';
+                } else {
+                    targetSection.style.transform = 'translateX(-100%)';
+                }
+                targetSection.style.display = 'block';
+
+                // Force reflow
+                targetSection.offsetWidth; 
+
+                // Trigger transition
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('visible');
+                targetSection.style.transform = 'translateX(0)';
+
+                currentActiveSectionId = targetSectionId; // Update active section
+            }
         });
     });
 });
