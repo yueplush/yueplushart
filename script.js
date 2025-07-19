@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initNavigation();
+    createBubbles();
+});
+
+function createBubbles() {
+    const container = document.querySelector('.background-animation');
+    if (!container) return;
+    for (let i = 0; i < 25; i++) {
+        const bubble = document.createElement('span');
+        bubble.className = 'bubble';
+        const size = Math.random() * 40 + 20;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${Math.random() * 100}%`;
+        bubble.style.setProperty('--duration', `${15 + Math.random() * 15}s`);
+        bubble.style.animationDelay = `${-Math.random() * 30}s`;
+        container.appendChild(bubble);
+    }
+}
+
+function initNavigation() {
     const navLinks = document.querySelectorAll('nav a[data-section]');
     const heroSection = document.getElementById('hero');
     let activeSection = heroSection;
@@ -56,4 +77,4 @@ document.addEventListener('DOMContentLoaded', () => {
             showSection(target);
         });
     });
-});
+}
