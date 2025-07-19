@@ -22,9 +22,11 @@ function createGeometricAnimation() {
 
     let t = 0;
     function draw() {
+        ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
         ctx.fillRect(0, 0, width, height);
 
+        ctx.globalCompositeOperation = 'lighter';
         const cx = width / 2;
         const cy = height / 2;
         const maxR = Math.min(width, height) * 0.4;
@@ -32,22 +34,22 @@ function createGeometricAnimation() {
 
         for (let i = 0; i < layers; i++) {
             const progress = i / layers;
-            const radius = maxR * progress * (1 + 0.1 * Math.sin(t * 0.02 + i));
-            const sides = 5 + (i % 5);
+            const radius = maxR * progress * (1 + 0.15 * Math.sin(t * 0.015 + i));
+            const sides = 3 + i;
             ctx.beginPath();
             for (let j = 0; j <= sides; j++) {
-                const angle = t * 0.01 * (i + 1) + j * Math.PI * 2 / sides;
+                const angle = t * 0.008 * (i + 2) + j * Math.PI * 2 / sides;
                 const x = cx + radius * Math.cos(angle);
                 const y = cy + radius * Math.sin(angle);
                 j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
             }
-            const hue = (t + i * 36) % 360;
-            ctx.strokeStyle = `hsla(${hue}, 70%, 55%, 0.8)`;
-            ctx.lineWidth = 1.2;
+            const hue = (t * 0.5 + i * 40) % 360;
+            ctx.strokeStyle = `hsla(${hue}, 70%, 60%, 0.7)`;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
         }
 
-        t += 0.5;
+        t += 0.4;
         requestAnimationFrame(draw);
     }
 
