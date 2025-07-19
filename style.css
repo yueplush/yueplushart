@@ -17,7 +17,8 @@ body {
     height: 100%;
     background: linear-gradient(60deg, #021a3a, #004e92, #021a3a);
     background-size: 200% 200%;
-    animation: gradientShift 15s ease infinite;
+    filter: hue-rotate(0deg);
+    animation: gradientShift 15s ease infinite, hueRotate 25s linear infinite;
     z-index: -1; /* 他のコンテンツの下に配置 */
     overflow: hidden; /* はみ出さないように */
 }
@@ -25,10 +26,13 @@ body {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
+    width: 8px;
+    height: 8px;
     background: radial-gradient(circle,
         rgba(255, 255, 200, 1) 0%,
         rgba(255, 255, 200, 0.3) 60%,
         rgba(255, 255, 200, 0) 100%);
+    box-shadow: 0 0 6px 2px rgba(255, 255, 180, 0.8);
     animation: flicker 2.5s ease-in-out infinite alternate;
 }
 
@@ -47,6 +51,11 @@ body {
     100% {
         background-position: 0 50%;
     }
+}
+
+@keyframes hueRotate {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
 }
 
 

@@ -14,6 +14,12 @@ function createFireflyAnimation() {
         const el = document.createElement('div');
         el.className = 'firefly';
         container.appendChild(el);
+        const size = Math.random() * 4 + 4;
+        const hue = Math.floor(Math.random() * 60 + 40);
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+        el.style.background = `radial-gradient(circle, hsla(${hue},100%,70%,1) 0%, hsla(${hue},100%,70%,0.3) 60%, hsla(${hue},100%,70%,0) 100%)`;
+        el.style.boxShadow = `0 0 6px 2px hsla(${hue},100%,65%,0.8)`;
         const depth = Math.random() * 0.7 + 0.3;
         flies.push({
             el,
