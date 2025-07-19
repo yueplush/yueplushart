@@ -318,7 +318,9 @@ main {
         left: 0;
         transform: none;
         background-color: transparent; /* スマホでは黒背景を除去 */
-        box-shadow: none;
+        border: none; /* 枠線も除去 */
+        box-shadow: none; /* 発光を除去 */
+        backdrop-filter: none; /* ぼかしを除去 */
     }
 
     header nav {
