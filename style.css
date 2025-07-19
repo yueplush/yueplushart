@@ -171,7 +171,7 @@ main {
 
 .content-section.hidden {
     opacity: 0;
-    transform: translateX(100%); /* 右に移動 */
+    /* transform: translateX(100%); を削除 */
     pointer-events: none; /* 非表示時にクリックイベントを無効化 */
 }
 
