@@ -333,6 +333,10 @@ main {
     text-align: left;
 }
 
+#commission h2 {
+    text-align: center;
+}
+
 #commission .commission-content {
     margin-left: auto;
     margin-right: auto;
