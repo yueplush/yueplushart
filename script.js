@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initArtworkFilters();
     initLightbox();
     initBubbleAnimation();
+    initProfileToggle();
 });
 function initNavigation() {
     const navLinks = document.querySelectorAll('nav a[data-section]');
@@ -305,6 +306,16 @@ function initBubbleAnimation() {
         requestAnimationFrame(draw);
     }
     draw();
+}
+
+function initProfileToggle() {
+    const toggle = document.getElementById('profile-toggle');
+    const details = document.getElementById('profile-details');
+    if (!toggle || !details) return;
+    toggle.addEventListener('click', () => {
+        const hidden = details.classList.toggle('hidden');
+        toggle.textContent = hidden ? 'Show Profiles' : 'Hide Profiles';
+    });
 }
 
 function initBootScreen() {
