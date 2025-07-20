@@ -316,16 +316,6 @@ main {
     font-size: 1em;
 }
 
-.mobile-break {
-    display: none;
-}
-
-@media (max-width: 600px) {
-    .mobile-break {
-        display: inline;
-    }
-}
-
 .content-section {
     padding: 80px 20px;
     margin: 0 auto;
