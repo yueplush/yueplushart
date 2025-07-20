@@ -689,7 +689,8 @@ main {
 
 #about .about-avatar {
     display: block;
-    margin: 0 auto 20px;
+    float: left;
+    margin: 0 20px 20px 0;
     max-width: 200px;
     width: 50%;
     height: auto;
@@ -711,7 +712,7 @@ main {
     }
 }
 
-.email a {
+.email {
     font-size: 1rem; /* match button text size */
 }
 
