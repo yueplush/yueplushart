@@ -317,6 +317,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background-color: rgba(0, 0, 0, 0.7); /* ヒーローセクションの背景色を調整 */
     color: #fff;
     z-index: 99; /* ヘッダーの下、コンテンツの上に配置 */
@@ -336,6 +337,7 @@ main {
 #hero h1 {
     font-size: 3em;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 #hero p {
