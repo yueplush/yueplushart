@@ -690,6 +690,21 @@ main {
     margin-bottom: 20px;
 }
 
+.contact-heading {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 /* Artwork Filter Buttons */
 .artwork-filters,
 .sub-filters {
