@@ -8,8 +8,9 @@ they are adults. After confirming, subcategories such as Bubbles, Balloons,
 Pooltoy and Other become available. No suggestive artwork is shown until one of
 these subcategories is chosen.
 
-On smartphones, tapping an artwork opens a full screen view. Tapping the full
-image again closes it for easier navigation on mobile devices.
+Tapping an artwork opens it in a full screen view. Clicking or tapping the
+full image again fades it out and closes the lightbox on desktop, tablets and
+smartphones alike for consistent navigation across devices.
 
 ## License
 

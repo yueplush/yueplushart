@@ -208,6 +208,8 @@ function initLightbox() {
     const title = document.getElementById('lightbox-title');
     const desc = document.getElementById('lightbox-desc');
 
+    // Detect viewport width in case different behaviour is needed in the
+    // future, though currently the lightbox acts the same on all devices.
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     if (!lightbox) return;
@@ -235,9 +237,9 @@ function initLightbox() {
         });
     });
 
-    if (isMobile) {
-        img.addEventListener('click', closeLightbox);
-    }
+    // Allow closing the lightbox by clicking on the image itself on all
+    // devices including desktop and tablets.
+    img.addEventListener('click', closeLightbox);
 
     lightbox.addEventListener('click', e => {
         if (e.target === lightbox) {
