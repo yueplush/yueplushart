@@ -13,6 +13,8 @@
     const initNavigation = () => {
         const navLinks = document.querySelectorAll('nav a[data-section]');
         const heroSection = document.getElementById('hero');
+        const aboutSection = document.getElementById('about');
+        const aboutDecor = document.getElementById('about-decor');
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('header nav');
         let activeSection = null;
@@ -59,6 +61,16 @@
         if (activeSection) await fadeOut(activeSection);
         activeSection = section;
         if (section) await fadeIn(section);
+
+        if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
+            if (section === aboutSection) {
+                fadeIn(aboutDecor);
+            } else {
+                fadeOut(aboutDecor);
+            }
+        } else if (aboutDecor) {
+            fadeOut(aboutDecor);
+        }
     }
 
     heroSection.addEventListener('click', () => showSection(null));
