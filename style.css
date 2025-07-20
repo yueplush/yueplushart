@@ -326,7 +326,9 @@ nav ul li a.active {
 main {
     position: relative;
     z-index: 1;
-    text-align: center;
+    text-align: left; /* 左寄せに変更 */
+    padding-left: 20px; /* 左右に余白を追加 */
+    padding-right: 20px;
     /* padding-top: 120px; を削除 */
 }
 
@@ -375,11 +377,11 @@ main {
 .hero-text {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 5%; /* 少し余白を残して左寄せ */
+    transform: translateY(-50%);
     display: inline-block;
     text-align: left;
-    width: 90%;
+    width: auto;
     max-width: 800px;
 }
 
