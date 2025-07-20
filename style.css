@@ -427,7 +427,7 @@ main {
 .artwork-gallery {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 20px; /* アイテム間のスペース */
     margin-top: 40px;
 }
@@ -613,6 +613,15 @@ main {
         width: 45%;
     }
 }
+#my-artwork {
+    text-align: left;
+}
+
+#my-artwork h2 {
+    text-align: left;
+}
+
+
 
 /* Commission Section Styles */
 #commission {
@@ -620,7 +629,7 @@ main {
 }
 
 #commission h2 {
-    text-align: center;
+    text-align: left;
 }
 
 #commission .commission-content {
@@ -688,7 +697,7 @@ main {
 }
 
 #about h2 {
-    text-align: center;
+    text-align: left;
 }
 
 #about .about-avatar {
@@ -750,6 +759,13 @@ main {
 }
 
 /* Network Link Section */
+#network-link {
+    text-align: left;
+}
+
+#network-link h2 {
+    text-align: left;
+}
 .network-heading {
     text-align: left;
     margin-top: 10px;
@@ -785,7 +801,7 @@ main {
 .sub-filters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
     margin-bottom: 20px;
 }
