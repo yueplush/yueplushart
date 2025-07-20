@@ -635,6 +635,19 @@ main {
     font-size: 1.8rem;
 }
 
+.side-job-heading {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.side-job-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 /* Artwork Filter Buttons */
 .artwork-filters,
 .sub-filters {
