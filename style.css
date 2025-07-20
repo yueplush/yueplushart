@@ -337,7 +337,7 @@ main {
     justify-content: center;
     align-items: center;
     text-align: left;
-    background-color: rgba(0, 0, 0, 0.9); /* 画面全体を覆う黒背景 */
+    background-color: rgba(0, 0, 0, 0.6); /* 画面全体を覆う黒背景を少し透過 */
     color: #fff;
     z-index: 101; /* ヘッダーより前面に配置 */
     transition: opacity 0.5s ease-in-out;
