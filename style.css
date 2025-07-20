@@ -593,6 +593,34 @@ main {
     color: #ffcc00;
 }
 
+/* About Section Styles */
+#about {
+    text-align: left;
+}
+
+#about h2 {
+    text-align: center;
+}
+
+#about .about-content {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
+}
+
+@media (min-width: 768px) {
+    #about .about-content {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
+.email a {
+    font-size: 1.8rem;
+}
+
 /* Artwork Filter Buttons */
 .artwork-filters,
 .sub-filters {
