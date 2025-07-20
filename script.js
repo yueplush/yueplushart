@@ -1,238 +1,226 @@
 (() => {
     'use strict';
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initBootScreen();
-        initNavigation();
-        initArtworkFilters();
-        initLightbox();
-        initBubbleAnimation();
-        initProfileToggle();
-    });
-
-    const initNavigation = () => {
-        const navLinks = document.querySelectorAll('nav a[data-section]');
-        const heroSection = document.getElementById('hero');
-        const aboutSection = document.getElementById('about');
-        const aboutDecor = document.getElementById('about-decor');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const nav = document.querySelector('header nav');
-        let activeSection = null;
-
-    // Hide all content sections initially
-    document.querySelectorAll('.content-section.hidden').forEach(sec => {
-        sec.style.display = 'none';
-    });
-
-    heroSection.classList.add('hidden');
-
-    function fadeOut(element) {
-        return new Promise(resolve => {
-            element.classList.remove('visible');
-            element.classList.add('hidden');
-            element.addEventListener('transitionend', function handler(e) {
-                if (e.target === element) {
-                    element.style.display = 'none';
-                    element.removeEventListener('transitionend', handler);
-                    resolve();
-                }
+    const Utils = {
+        fadeOut(element) {
+            return new Promise(resolve => {
+                element.classList.remove('visible');
+                element.classList.add('hidden');
+                element.addEventListener('transitionend', function handler(e) {
+                    if (e.target === element) {
+                        element.style.display = 'none';
+                        element.removeEventListener('transitionend', handler);
+                        resolve();
+                    }
+                });
             });
-        });
-    }
-
-    function fadeIn(element) {
-        element.style.display = 'block';
-        // Force reflow to apply the new display before removing the class
-        void element.offsetWidth;
-        return new Promise(resolve => {
-            element.classList.remove('hidden');
-            element.classList.add('visible');
-            element.addEventListener('transitionend', function handler(e) {
-                if (e.target === element) {
-                    element.removeEventListener('transitionend', handler);
-                    resolve();
-                }
+        },
+        fadeIn(element) {
+            element.style.display = 'block';
+            void element.offsetWidth;
+            return new Promise(resolve => {
+                element.classList.remove('hidden');
+                element.classList.add('visible');
+                element.addEventListener('transitionend', function handler(e) {
+                    if (e.target === element) {
+                        element.removeEventListener('transitionend', handler);
+                        resolve();
+                    }
+                });
             });
-        });
-    }
-
-    async function showSection(section) {
-        if (activeSection === section) return;
-        if (activeSection) await fadeOut(activeSection);
-        activeSection = section;
-        if (section) await fadeIn(section);
-
-        if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
-            if (section === heroSection) {
-                fadeOut(aboutDecor);
-            } else {
-                fadeIn(aboutDecor);
-            }
-        } else if (aboutDecor) {
-            fadeOut(aboutDecor);
         }
-    }
-
-    heroSection.addEventListener('click', () => showSection(null));
-
-    document.addEventListener('bootFinished', () => {
-        fadeIn(heroSection).then(() => {
-            activeSection = heroSection;
-        });
-    });
-
-    const menu = nav.querySelector('ul');
-
-    function openMenu() {
-        menu.style.display = 'flex';
-        void menu.offsetWidth; // reflow for transition
-        nav.classList.add('open');
-    }
-
-    function closeMenu() {
-        if (!nav.classList.contains('open')) return;
-        nav.classList.add('closing');
-        nav.classList.remove('open');
-        menu.addEventListener('transitionend', function handler(e) {
-            if (e.target === menu) {
-                menu.style.display = 'none';
-                nav.classList.remove('closing');
-                menu.removeEventListener('transitionend', handler);
-            }
-        });
-    }
-
-    function toggleMenu() {
-        if (nav.classList.contains('open')) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
-    }
-
-    if (menuToggle) {
-        menuToggle.addEventListener('click', toggleMenu);
-    }
-
-    navLinks.forEach(link => {
-        const target = document.getElementById(link.dataset.section);
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            showSection(target);
-            if (nav.classList.contains('open')) {
-                closeMenu();
-            }
-        });
-    });
     };
 
-    const initArtworkFilters = () => {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const subFilters = document.querySelector('.sub-filters');
-        const subBtns = document.querySelectorAll('.sub-btn');
-        const items = document.querySelectorAll('.artwork-item');
-        const popup = document.getElementById('suggestive-popup');
-    const adultCheck = document.getElementById('adult-check');
-    const confirmBtn = document.getElementById('confirm-adult');
+    const Navigation = {
+        init() {
+            const navLinks = document.querySelectorAll('nav a[data-section]');
+            const heroSection = document.getElementById('hero');
+            const aboutDecor = document.getElementById('about-decor');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('header nav');
+            let activeSection = null;
 
-    let adultOk = false;
-    let currentFilter = 'all';
-    let currentSub = '';
+            document.querySelectorAll('.content-section.hidden').forEach(sec => {
+                sec.style.display = 'none';
+            });
 
-    // Initially hide suggestive artwork from the "ALL" view
-    applyFilters();
+            heroSection.classList.add('hidden');
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
+            const menu = nav.querySelector('ul');
+
+            const openMenu = () => {
+                menu.style.display = 'flex';
+                void menu.offsetWidth;
+                nav.classList.add('open');
+            };
+
+            const closeMenu = () => {
+                if (!nav.classList.contains('open')) return;
+                nav.classList.add('closing');
+                nav.classList.remove('open');
+                menu.addEventListener('transitionend', function handler(e) {
+                    if (e.target === menu) {
+                        menu.style.display = 'none';
+                        nav.classList.remove('closing');
+                        menu.removeEventListener('transitionend', handler);
+                    }
+                });
+            };
+
+            const toggleMenu = () =>
+                nav.classList.contains('open') ? closeMenu() : openMenu();
+
+            const showSection = async section => {
+                if (activeSection === section) return;
+                if (activeSection) await Utils.fadeOut(activeSection);
+                activeSection = section;
+                if (section) await Utils.fadeIn(section);
+
+                if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
+                    if (section === heroSection) {
+                        Utils.fadeOut(aboutDecor);
+                    } else {
+                        Utils.fadeIn(aboutDecor);
+                    }
+                } else if (aboutDecor) {
+                    Utils.fadeOut(aboutDecor);
+                }
+            };
+
+            heroSection.addEventListener('click', () => showSection(null));
+            document.addEventListener('bootFinished', () => {
+                Utils.fadeIn(heroSection).then(() => {
+                    activeSection = heroSection;
+                });
+            });
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleMenu);
+            }
+
+            navLinks.forEach(link => {
+                const target = document.getElementById(link.dataset.section);
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    showSection(target);
+                    if (nav.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+            });
+        }
+    };
+
+    const ArtworkFilters = {
+        init() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const subFilters = document.querySelector('.sub-filters');
+            const subBtns = document.querySelectorAll('.sub-btn');
+            const items = document.querySelectorAll('.artwork-item');
+            const popup = document.getElementById('suggestive-popup');
+            const adultCheck = document.getElementById('adult-check');
+            const confirmBtn = document.getElementById('confirm-adult');
+
+            let adultOk = false;
+            let currentFilter = 'all';
+            let currentSub = '';
+
+            // Initially hide suggestive artwork from the "ALL" view
+            applyFilters();
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
 
             // Reset sub category selection when switching filters
             subBtns.forEach(b => b.classList.remove('active'));
             currentSub = '';
 
-            if (currentFilter === 'suggestive' && !adultOk) {
-                showPopup();
-            } else {
-                if (currentFilter === 'suggestive') {
-                    subFilters.classList.remove('hidden');
-                } else {
-                    subFilters.classList.add('hidden');
-                }
+                    if (currentFilter === 'suggestive' && !adultOk) {
+                        showPopup();
+                    } else {
+                        if (currentFilter === 'suggestive') {
+                            subFilters.classList.remove('hidden');
+                        } else {
+                            subFilters.classList.add('hidden');
+                        }
+                        applyFilters();
+                    }
+                });
+            });
+
+            subBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    subBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentSub = btn.dataset.sub;
+                    applyFilters();
+                });
+            });
+
+            adultCheck.addEventListener('change', () => {
+                confirmBtn.disabled = !adultCheck.checked;
+            });
+
+            confirmBtn.addEventListener('click', () => {
+                adultOk = true;
+                hidePopup();
+                subFilters.classList.remove('hidden');
+                subBtns.forEach(b => b.classList.remove('active'));
+                currentSub = '';
                 applyFilters();
-            }
-        });
-    });
+            });
 
-    subBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            subBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentSub = btn.dataset.sub;
-            applyFilters();
-        });
-    });
-
-    adultCheck.addEventListener('change', () => {
-        confirmBtn.disabled = !adultCheck.checked;
-    });
-
-    confirmBtn.addEventListener('click', () => {
-        adultOk = true;
-        hidePopup();
-        subFilters.classList.remove('hidden');
-        subBtns.forEach(b => b.classList.remove('active'));
-        currentSub = '';
-        applyFilters();
-    });
-
-    function showPopup() {
-        popup.classList.remove('hidden');
-        void popup.offsetWidth;
-        popup.classList.add('visible');
-    }
-
-    function hidePopup() {
-        popup.classList.remove('visible');
-        popup.addEventListener('transitionend', function handler(e) {
-            if (e.target === popup) {
-                popup.classList.add('hidden');
-                popup.removeEventListener('transitionend', handler);
-                adultCheck.checked = false;
-                confirmBtn.disabled = true;
-            }
-        });
-    }
-
-    function applyFilters() {
-        items.forEach(item => {
-            const tags = item.dataset.tags.split(' ');
-            const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
-            const matchesSub = !currentSub || tags.includes(currentSub);
-            const isSuggestive = tags.includes('suggestive');
-
-            let visible = matchesFilter && matchesSub;
-            if (currentFilter === 'suggestive' && !currentSub) {
-                visible = false;
-            }
-            if (currentFilter === 'all' && !adultOk && isSuggestive) {
-                visible = false;
+            function showPopup() {
+                popup.classList.remove('hidden');
+                void popup.offsetWidth;
+                popup.classList.add('visible');
             }
 
-            item.style.display = visible ? 'block' : 'none';
-        });
-    }
+            function hidePopup() {
+                popup.classList.remove('visible');
+                popup.addEventListener('transitionend', function handler(e) {
+                    if (e.target === popup) {
+                        popup.classList.add('hidden');
+                        popup.removeEventListener('transitionend', handler);
+                        adultCheck.checked = false;
+                        confirmBtn.disabled = true;
+                    }
+                });
+            }
+
+            function applyFilters() {
+                items.forEach(item => {
+                    const tags = item.dataset.tags.split(' ');
+                    const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
+                    const matchesSub = !currentSub || tags.includes(currentSub);
+                    const isSuggestive = tags.includes('suggestive');
+
+                    let visible = matchesFilter && matchesSub;
+                    if (currentFilter === 'suggestive' && !currentSub) {
+                        visible = false;
+                    }
+                    if (currentFilter === 'all' && !adultOk && isSuggestive) {
+                        visible = false;
+                    }
+
+                    item.style.display = visible ? 'block' : 'none';
+                });
+            }
+        }
     };
 
-    const initLightbox = () => {
-        const items = document.querySelectorAll('.artwork-item');
-        const lightbox = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        const title = document.getElementById('lightbox-title');
-        const desc = document.getElementById('lightbox-desc');
+    const Lightbox = {
+        init() {
+            const items = document.querySelectorAll('.artwork-item');
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const title = document.getElementById('lightbox-title');
+            const desc = document.getElementById('lightbox-desc');
 
     // Detect viewport width in case different behaviour is needed in the
     // future, though currently the lightbox acts the same on all devices.
@@ -272,13 +260,15 @@
             closeLightbox();
         }
     });
+        }
     };
 
-    const initBubbleAnimation = () => {
-        const canvas = document.getElementById('bubble-canvas');
-        if (!canvas || !canvas.getContext) return;
-        const ctx = canvas.getContext('2d');
-        let width, height;
+    const BubbleAnimation = {
+        init() {
+            const canvas = document.getElementById('bubble-canvas');
+            if (!canvas || !canvas.getContext) return;
+            const ctx = canvas.getContext('2d');
+            let width, height;
 
     function resize() {
         width = canvas.width = window.innerWidth;
@@ -330,22 +320,26 @@
         requestAnimationFrame(draw);
     }
     draw();
+        }
     };
 
-    const initProfileToggle = () => {
-        const toggle = document.getElementById('profile-toggle');
-        const details = document.getElementById('profile-details');
-        if (!toggle || !details) return;
-        toggle.addEventListener('click', () => {
-            const hidden = details.classList.toggle('hidden');
-            toggle.textContent = hidden ? 'Show Profiles' : 'Hide Profiles';
-        });
+    const ProfileToggle = {
+        init() {
+            const toggle = document.getElementById('profile-toggle');
+            const details = document.getElementById('profile-details');
+            if (!toggle || !details) return;
+            toggle.addEventListener('click', () => {
+                const hidden = details.classList.toggle('hidden');
+                toggle.textContent = hidden ? 'Show Profiles' : 'Hide Profiles';
+            });
+        }
     };
 
-    const initBootScreen = () => {
-        const boot = document.getElementById('boot-screen');
-        const crt = document.getElementById('crt-overlay');
-        if (!boot) return;
+    const BootScreen = {
+        init() {
+            const boot = document.getElementById('boot-screen');
+            const crt = document.getElementById('crt-overlay');
+            if (!boot) return;
 
     const container = boot.querySelector('.boot-container');
     const lines = [
@@ -392,10 +386,24 @@
         timer = setTimeout(addLine, delay);
     }
 
-    boot.addEventListener('click', finishBoot);
-    boot.addEventListener('touchstart', finishBoot);
+            boot.addEventListener('click', finishBoot);
+            boot.addEventListener('touchstart', finishBoot);
 
-    addLine();
+            addLine();
+        }
     };
+
+    const App = {
+        init() {
+            BootScreen.init();
+            Navigation.init();
+            ArtworkFilters.init();
+            Lightbox.init();
+            BubbleAnimation.init();
+            ProfileToggle.init();
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', App.init);
 
 })();
