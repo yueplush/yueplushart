@@ -636,14 +636,14 @@ main {
 }
 
 .side-job-heading {
-    text-align: center;
+    text-align: left; /* align with About Me layout */
     margin-top: 10px;
 }
 
 .side-job-links {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start; /* left align links */
     gap: 10px;
     margin-bottom: 20px;
 }
