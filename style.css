@@ -341,12 +341,12 @@ main {
 #hero h1 {
     font-size: 3em;
     margin-bottom: 10px;
-    text-align: center;
+    text-align: left;
 }
 
 #hero p {
     font-size: 1.2em;
-    text-align: center;
+    text-align: left;
 }
 
 .hero-text {
@@ -355,7 +355,7 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     display: inline-block;
-    text-align: center;
+    text-align: left;
 }
 
 .hero-subtitle {
