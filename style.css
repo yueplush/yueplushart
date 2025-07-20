@@ -366,7 +366,7 @@ main {
 #hero h1 {
     font-size: 3em;
     margin-bottom: 10px;
-    text-align: left;
+    text-align: center;
 }
 
 #hero p {
@@ -377,10 +377,10 @@ main {
 .hero-text {
     position: absolute;
     top: 50%;
-    left: 5%; /* 少し余白を残して左寄せ */
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: inline-block;
-    text-align: left;
+    text-align: center;
     width: auto;
     max-width: 800px;
 }
