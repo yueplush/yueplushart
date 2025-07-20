@@ -621,6 +621,11 @@ main {
 
 #my-artwork h2 {
     text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
 }
 
 #my-artwork .artwork-content {
@@ -632,7 +637,8 @@ main {
 }
 
 @media (min-width: 768px) {
-    #my-artwork .artwork-content {
+    #my-artwork .artwork-content,
+    #my-artwork h2 {
         padding-left: 3rem;
         padding-right: 3rem;
     }
