@@ -63,10 +63,10 @@
         if (section) await fadeIn(section);
 
         if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
-            if (section === aboutSection) {
-                fadeIn(aboutDecor);
-            } else {
+            if (section === heroSection) {
                 fadeOut(aboutDecor);
+            } else {
+                fadeIn(aboutDecor);
             }
         } else if (aboutDecor) {
             fadeOut(aboutDecor);

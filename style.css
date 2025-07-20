@@ -32,7 +32,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: auto;
     background: repeating-linear-gradient(
         180deg,
         rgba(255,255,255,0.25) 0px,
@@ -54,7 +54,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 10001;
     background:
         repeating-linear-gradient(0deg, rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 2px, transparent 2px, transparent 4px),
@@ -661,7 +661,7 @@ main {
     width: 30%;
     max-width: 450px;
     height: auto;
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 102;
     opacity: 0;
     display: none;
@@ -671,6 +671,10 @@ main {
 #about-decor.visible {
     display: block;
     opacity: 1;
+}
+
+#about-decor:hover {
+    opacity: 0.3;
 }
 
 #about-decor.hidden {
