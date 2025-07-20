@@ -707,6 +707,37 @@ main {
     margin-bottom: 20px;
 }
 
+/* Network Link Section */
+.network-heading {
+    text-align: left;
+    margin-top: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.network-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#network-link .network-link-content {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
+}
+
+@media (min-width: 768px) {
+    #network-link .network-link-content {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
 /* Artwork Filter Buttons */
 .artwork-filters,
 .sub-filters {
