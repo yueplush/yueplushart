@@ -1,17 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-    initBootScreen();
-    initNavigation();
-    initArtworkFilters();
-    initLightbox();
-    initBubbleAnimation();
-    initProfileToggle();
-});
-function initNavigation() {
-    const navLinks = document.querySelectorAll('nav a[data-section]');
-    const heroSection = document.getElementById('hero');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('header nav');
-    let activeSection = null;
+(() => {
+    'use strict';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initBootScreen();
+        initNavigation();
+        initArtworkFilters();
+        initLightbox();
+        initBubbleAnimation();
+        initProfileToggle();
+    });
+
+    const initNavigation = () => {
+        const navLinks = document.querySelectorAll('nav a[data-section]');
+        const heroSection = document.getElementById('hero');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('header nav');
+        let activeSection = null;
 
     // Hide all content sections initially
     document.querySelectorAll('.content-section.hidden').forEach(sec => {
@@ -108,14 +112,14 @@ function initNavigation() {
             }
         });
     });
-}
+    };
 
-function initArtworkFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const subFilters = document.querySelector('.sub-filters');
-    const subBtns = document.querySelectorAll('.sub-btn');
-    const items = document.querySelectorAll('.artwork-item');
-    const popup = document.getElementById('suggestive-popup');
+    const initArtworkFilters = () => {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const subFilters = document.querySelector('.sub-filters');
+        const subBtns = document.querySelectorAll('.sub-btn');
+        const items = document.querySelectorAll('.artwork-item');
+        const popup = document.getElementById('suggestive-popup');
     const adultCheck = document.getElementById('adult-check');
     const confirmBtn = document.getElementById('confirm-adult');
 
@@ -207,14 +211,14 @@ function initArtworkFilters() {
             item.style.display = visible ? 'block' : 'none';
         });
     }
-}
+    };
 
-function initLightbox() {
-    const items = document.querySelectorAll('.artwork-item');
-    const lightbox = document.getElementById('lightbox');
-    const img = document.getElementById('lightbox-img');
-    const title = document.getElementById('lightbox-title');
-    const desc = document.getElementById('lightbox-desc');
+    const initLightbox = () => {
+        const items = document.querySelectorAll('.artwork-item');
+        const lightbox = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        const title = document.getElementById('lightbox-title');
+        const desc = document.getElementById('lightbox-desc');
 
     // Detect viewport width in case different behaviour is needed in the
     // future, though currently the lightbox acts the same on all devices.
@@ -254,13 +258,13 @@ function initLightbox() {
             closeLightbox();
         }
     });
-}
+    };
 
-function initBubbleAnimation() {
-    const canvas = document.getElementById('bubble-canvas');
-    if (!canvas || !canvas.getContext) return;
-    const ctx = canvas.getContext('2d');
-    let width, height;
+    const initBubbleAnimation = () => {
+        const canvas = document.getElementById('bubble-canvas');
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
 
     function resize() {
         width = canvas.width = window.innerWidth;
@@ -312,22 +316,22 @@ function initBubbleAnimation() {
         requestAnimationFrame(draw);
     }
     draw();
-}
+    };
 
-function initProfileToggle() {
-    const toggle = document.getElementById('profile-toggle');
-    const details = document.getElementById('profile-details');
-    if (!toggle || !details) return;
-    toggle.addEventListener('click', () => {
-        const hidden = details.classList.toggle('hidden');
-        toggle.textContent = hidden ? 'Show Profiles' : 'Hide Profiles';
-    });
-}
+    const initProfileToggle = () => {
+        const toggle = document.getElementById('profile-toggle');
+        const details = document.getElementById('profile-details');
+        if (!toggle || !details) return;
+        toggle.addEventListener('click', () => {
+            const hidden = details.classList.toggle('hidden');
+            toggle.textContent = hidden ? 'Show Profiles' : 'Hide Profiles';
+        });
+    };
 
-function initBootScreen() {
-    const boot = document.getElementById('boot-screen');
-    const crt = document.getElementById('crt-overlay');
-    if (!boot) return;
+    const initBootScreen = () => {
+        const boot = document.getElementById('boot-screen');
+        const crt = document.getElementById('crt-overlay');
+        if (!boot) return;
 
     const container = boot.querySelector('.boot-container');
     const lines = [
@@ -378,4 +382,6 @@ function initBootScreen() {
     boot.addEventListener('touchstart', finishBoot);
 
     addLine();
-}
+    };
+
+})();
