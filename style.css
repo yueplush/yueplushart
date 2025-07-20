@@ -824,12 +824,15 @@ main {
 
 .network-links {
     list-style: none;
-    padding-left: 1em;
+    padding-left: 0;
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .network-links li {
-    margin-bottom: 8px;
+    margin: 0;
 }
 
 #network-link .network-link-content {
