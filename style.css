@@ -25,26 +25,68 @@ body {
     overflow: hidden;
 }
 
+#boot-screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        180deg,
+        rgba(255,255,255,0.06) 0px,
+        rgba(255,255,255,0.06) 2px,
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
+    );
+    mix-blend-mode: overlay;
+    z-index: 1;
+}
+
 #boot-screen.fade-out {
     animation: bootFadeOut 1s ease forwards;
 }
 
 .boot-container {
     text-align: left;
+    position: relative;
+    z-index: 2;
 }
 
 .boot-line {
     font-family: 'Share Tech Mono', monospace;
-    color: #0f0;
+    color: #bcdfff;
     font-size: 1.6em;
     letter-spacing: 0.05em;
-    text-shadow: 0 0 8px #0f0, 0 0 18px #0f0, 0 0 30px #0ff;
+    text-shadow: 0 0 5px #bcdfff, 0 0 10px #bcdfff;
     opacity: 0;
     animation: bootSlideIn 0.6s ease forwards;
 }
 
 .boot-blink {
     animation: bootSlideIn 0.6s ease forwards, blink 1s steps(1) infinite 1.4s;
+}
+
+.boot-diamond {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #0f0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: spinDiamond 2s linear infinite;
+    z-index: 0;
+}
+
+@keyframes spinDiamond {
+    from {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(405deg);
+    }
 }
 
 .boot-status {

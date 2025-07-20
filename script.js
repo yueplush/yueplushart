@@ -328,7 +328,7 @@ function initBootScreen() {
     ];
 
     let index = 0;
-    const delay = 700;
+    const delay = 300;
     let timer;
 
     function finishBoot() {
