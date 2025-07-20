@@ -319,7 +319,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    text-align: left;
     background-color: rgba(0, 0, 0, 0.9); /* 画面全体を覆う黒背景 */
     color: #fff;
     z-index: 101; /* ヘッダーより前面に配置 */
@@ -336,14 +336,21 @@ main {
     pointer-events: auto;
 }
 
+
 #hero h1 {
     font-size: 3em;
     margin-bottom: 10px;
-    text-align: center;
+    text-align: left;
 }
 
 #hero p {
     font-size: 1.2em;
+    text-align: left;
+}
+
+.hero-text {
+    display: inline-block;
+    text-align: left;
 }
 
 .hero-subtitle {
