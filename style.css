@@ -15,24 +15,37 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(60deg, #021a3a, #004e92, #021a3a);
-    background-size: 200% 200%;
+    background: radial-gradient(circle at center, #001 0%, #000 80%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
-    animation: gradientShift 12s ease infinite;
+    overflow: hidden;
 }
 
 #boot-screen.fade-out {
     animation: bootFadeOut 1s ease forwards;
 }
 
-.boot-message {
-    font-size: 2em;
-    animation: bootSlideIn 1s ease;
-    color: #fff;
+.boot-container {
     text-align: center;
+}
+
+.boot-line {
+    font-family: 'Share Tech Mono', monospace;
+    color: #0f0;
+    font-size: 1.6em;
+    text-shadow: 0 0 5px #0f0, 0 0 15px #0f0;
+    opacity: 0;
+    animation: bootSlideIn 0.6s ease forwards;
+}
+
+.boot-line:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.boot-blink {
+    animation: bootSlideIn 0.6s ease forwards, blink 1s steps(1) infinite 1.4s;
 }
 
 @keyframes bootSlideIn {
@@ -48,6 +61,15 @@ body {
 
 @keyframes bootFadeOut {
     to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
 }
 
 .background-animation {

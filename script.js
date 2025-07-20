@@ -311,14 +311,8 @@ function initBootScreen() {
     const boot = document.getElementById('boot-screen');
     if (!boot) return;
 
-    if (localStorage.getItem('visited')) {
-        boot.remove();
-        return;
-    }
-
     setTimeout(() => {
         boot.classList.add('fade-out');
         boot.addEventListener('animationend', () => boot.remove());
-        localStorage.setItem('visited', 'true');
     }, 2000);
 }
