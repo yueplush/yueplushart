@@ -391,6 +391,12 @@ main {
     text-align: right;
 }
 
+.years-exp {
+    display: block;
+    text-align: right;
+    white-space: nowrap;
+}
+
 .content-section {
     padding: 80px 20px;
     margin: 0 auto;
