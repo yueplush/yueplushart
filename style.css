@@ -373,10 +373,13 @@ main {
     transform: translate(-50%, -50%);
     display: inline-block;
     text-align: left;
+    width: 90%;
+    max-width: 800px;
 }
 
 .hero-subtitle {
     font-size: 1em;
+    text-align: right;
 }
 
 .content-section {
