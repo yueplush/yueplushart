@@ -35,10 +35,10 @@ body {
     pointer-events: none;
     background: repeating-linear-gradient(
         180deg,
-        rgba(255,255,255,0.06) 0px,
-        rgba(255,255,255,0.06) 2px,
-        rgba(0,0,0,0.06) 2px,
-        rgba(0,0,0,0.06) 4px
+        rgba(255,255,255,0.25) 0px,
+        rgba(255,255,255,0.25) 2px,
+        rgba(0,0,0,0.25) 2px,
+        rgba(0,0,0,0.25) 4px
     );
     mix-blend-mode: overlay;
     z-index: 1;
@@ -60,7 +60,7 @@ body {
         repeating-linear-gradient(0deg, rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 2px, transparent 2px, transparent 4px),
         repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 2px);
     mix-blend-mode: multiply;
-    opacity: 0.5;
+    opacity: 0.25;
     animation: crtFlicker 0.08s steps(1) infinite;
 }
 
@@ -69,8 +69,8 @@ body {
 }
 
 @keyframes crtFlicker {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.55; }
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.3; }
 }
 
 @keyframes crtFade {
