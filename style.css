@@ -674,12 +674,14 @@ main {
 }
 
 .email a {
-    font-size: 1.8rem;
+    font-size: 1rem; /* match button text size */
 }
 
 .side-job-heading {
     text-align: left; /* align with About Me layout */
     margin-top: 10px;
+    font-size: 1.3em; /* emphasize like Contact info */
+    font-weight: bold;
 }
 
 .side-job-links {
