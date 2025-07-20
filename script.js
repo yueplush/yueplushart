@@ -11,14 +11,14 @@ function initNavigation() {
     const heroSection = document.getElementById('hero');
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('header nav');
-    let activeSection = heroSection;
+    let activeSection = null;
 
     // Hide all content sections initially
     document.querySelectorAll('.content-section.hidden').forEach(sec => {
         sec.style.display = 'none';
     });
 
-    heroSection.classList.add('visible');
+    heroSection.classList.add('hidden');
 
     function fadeOut(element) {
         return new Promise(resolve => {
@@ -58,6 +58,12 @@ function initNavigation() {
     }
 
     heroSection.addEventListener('click', () => showSection(null));
+
+    document.addEventListener('bootFinished', () => {
+        fadeIn(heroSection).then(() => {
+            activeSection = heroSection;
+        });
+    });
 
     const menu = nav.querySelector('ul');
 
@@ -347,6 +353,7 @@ function initBootScreen() {
         if (boot.classList.contains('fade-out')) return;
         clearTimeout(timer);
         boot.classList.add('fade-out');
+        document.dispatchEvent(new Event('bootFinished'));
         if (crt) {
             crt.classList.add('fade-out');
             crt.addEventListener('animationend', () => crt.remove());
