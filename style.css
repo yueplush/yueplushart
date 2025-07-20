@@ -40,12 +40,12 @@ body {
     animation: bootSlideIn 0.6s ease forwards;
 }
 
-.boot-line:nth-child(2) {
-    animation-delay: 0.4s;
-}
-
 .boot-blink {
     animation: bootSlideIn 0.6s ease forwards, blink 1s steps(1) infinite 1.4s;
+}
+
+.boot-status {
+    color: #0f0;
 }
 
 @keyframes bootSlideIn {

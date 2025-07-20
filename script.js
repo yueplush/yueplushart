@@ -311,8 +311,40 @@ function initBootScreen() {
     const boot = document.getElementById('boot-screen');
     if (!boot) return;
 
-    setTimeout(() => {
-        boot.classList.add('fade-out');
-        boot.addEventListener('animationend', () => boot.remove());
-    }, 2000);
+    const container = boot.querySelector('.boot-container');
+    const lines = [
+        'YUEPLUSH CYBER BIOS v1.0',
+        '<span class="boot-blink">INITIALIZING...</span>',
+        'Access from external network... <span class="boot-status">Approved</span>',
+        'System boot... <span class="boot-status">Initialize</span>',
+        'CPU... <span class="boot-status">OK</span>',
+        'GPU... <span class="boot-status">OK</span>',
+        'RAM... <span class="boot-status">OK</span>',
+        'Storage... <span class="boot-status">OK</span>',
+        'Security protocols... <span class="boot-status">Enabled</span>',
+        'Welcome, stranger, take easy for moment',
+        'Cybernetic link process v1.12 booted up, <span class="boot-status">Accepted</span>',
+        '<span class="boot-blink">Screen changes...3...2...1...</span>'
+    ];
+
+    let index = 0;
+    const delay = 700;
+
+    function addLine() {
+        if (index >= lines.length) {
+            setTimeout(() => {
+                boot.classList.add('fade-out');
+                boot.addEventListener('animationend', () => boot.remove());
+            }, 600);
+            return;
+        }
+        const div = document.createElement('div');
+        div.className = 'boot-line';
+        div.innerHTML = lines[index];
+        container.appendChild(div);
+        index++;
+        setTimeout(addLine, delay);
+    }
+
+    addLine();
 }
