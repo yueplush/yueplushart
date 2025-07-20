@@ -309,6 +309,7 @@ function initBubbleAnimation() {
 
 function initBootScreen() {
     const boot = document.getElementById('boot-screen');
+    const crt = document.getElementById('crt-overlay');
     if (!boot) return;
 
     const container = boot.querySelector('.boot-container');
@@ -335,12 +336,16 @@ function initBootScreen() {
         if (boot.classList.contains('fade-out')) return;
         clearTimeout(timer);
         boot.classList.add('fade-out');
+        if (crt) {
+            crt.classList.add('fade-out');
+            crt.addEventListener('animationend', () => crt.remove());
+        }
         boot.addEventListener('animationend', () => boot.remove());
     }
 
     function addLine() {
         if (index >= lines.length) {
-            timer = setTimeout(finishBoot, 600);
+            timer = setTimeout(finishBoot, 1600);
             return;
         }
         const div = document.createElement('div');

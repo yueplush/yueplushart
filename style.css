@@ -48,6 +48,35 @@ body {
     animation: bootFadeOut 1s ease forwards;
 }
 
+#crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10001;
+    background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 2px, transparent 2px, transparent 4px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 2px);
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+    animation: crtFlicker 0.08s steps(1) infinite;
+}
+
+#crt-overlay.fade-out {
+    animation: crtFade 0.5s ease forwards;
+}
+
+@keyframes crtFlicker {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes crtFade {
+    to { opacity: 0; visibility: hidden; }
+}
+
 .boot-container {
     text-align: left;
     position: relative;
