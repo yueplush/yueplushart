@@ -654,6 +654,35 @@ main {
     text-align: left;
 }
 
+#about-decor {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    max-width: 450px;
+    height: auto;
+    pointer-events: none;
+    z-index: 102;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+#about-decor.visible {
+    display: block;
+    opacity: 1;
+}
+
+#about-decor.hidden {
+    opacity: 0;
+}
+
+@media (max-width: 600px) {
+    #about-decor {
+        display: none !important;
+    }
+}
+
 #about h2 {
     text-align: center;
 }
