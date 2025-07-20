@@ -255,6 +255,12 @@ nav ul li a:hover {
     color: #00bfff; /* ホバー時の色を水色に */
 }
 
+nav ul li a.active {
+    background-color: #fff; /* クリック時に背景を白に */
+    color: #00bfff; /* 文字色を水色に */
+    border-radius: 5px;
+}
+
 .menu-toggle {
     display: none;
     background: none;

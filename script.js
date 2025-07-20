@@ -106,6 +106,8 @@
         const target = document.getElementById(link.dataset.section);
         link.addEventListener('click', e => {
             e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
             showSection(target);
             if (nav.classList.contains('open')) {
                 closeMenu();
