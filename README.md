@@ -10,7 +10,9 @@ these subcategories is chosen.
 
 Tapping an artwork opens it in a full screen view. Clicking or tapping the
 full image again fades it out and closes the lightbox on desktop, tablets and
-smartphones alike for consistent navigation across devices.
+smartphones alike for consistent navigation across devices. The layout also
+responds when a PC display is rotated vertically, covering common sizes like
+720×1280, 1080×1920 and even 4K portrait mode.
 
 ## License
 
