@@ -329,13 +329,18 @@ function initBootScreen() {
 
     let index = 0;
     const delay = 700;
+    let timer;
+
+    function finishBoot() {
+        if (boot.classList.contains('fade-out')) return;
+        clearTimeout(timer);
+        boot.classList.add('fade-out');
+        boot.addEventListener('animationend', () => boot.remove());
+    }
 
     function addLine() {
         if (index >= lines.length) {
-            setTimeout(() => {
-                boot.classList.add('fade-out');
-                boot.addEventListener('animationend', () => boot.remove());
-            }, 600);
+            timer = setTimeout(finishBoot, 600);
             return;
         }
         const div = document.createElement('div');
@@ -343,8 +348,11 @@ function initBootScreen() {
         div.innerHTML = lines[index];
         container.appendChild(div);
         index++;
-        setTimeout(addLine, delay);
+        timer = setTimeout(addLine, delay);
     }
+
+    boot.addEventListener('click', finishBoot);
+    boot.addEventListener('touchstart', finishBoot);
 
     addLine();
 }
