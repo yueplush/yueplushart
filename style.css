@@ -814,6 +814,11 @@ main {
 
 #network-link h2 {
     text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
 }
 .network-heading {
     text-align: left;
@@ -844,7 +849,8 @@ main {
 }
 
 @media (min-width: 768px) {
-    #network-link .network-link-content {
+    #network-link .network-link-content,
+    #network-link h2 {
         padding-left: 3rem;
         padding-right: 3rem;
     }
