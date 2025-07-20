@@ -658,6 +658,15 @@ main {
     text-align: center;
 }
 
+#about .about-avatar {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 200px;
+    width: 50%;
+    height: auto;
+    border-radius: 50%;
+}
+
 #about .about-content {
     margin-left: auto;
     margin-right: auto;
