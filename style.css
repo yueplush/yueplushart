@@ -760,8 +760,19 @@ main {
 
 @media (min-width: 768px) {
     #about .about-content {
+        flex-direction: row;
+        align-items: flex-start;
         padding-left: 3rem;
         padding-right: 3rem;
+    }
+
+    #about .about-avatar {
+        margin: 0 20px 0 0;
+        width: 200px;
+    }
+
+    #about .about-text {
+        margin-left: 0;
     }
 }
 
