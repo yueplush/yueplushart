@@ -817,11 +817,13 @@ main {
 }
 
 .network-links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
+    list-style: none;
+    padding-left: 1em;
     margin-bottom: 20px;
+}
+
+.network-links li {
+    margin-bottom: 8px;
 }
 
 #network-link .network-link-content {
