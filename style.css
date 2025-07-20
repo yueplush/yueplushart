@@ -693,8 +693,7 @@ main {
 
 #about .about-avatar {
     display: block;
-    float: left;
-    margin: 0 20px 20px 0;
+    margin: 0 auto 20px;
     max-width: 200px;
     width: 50%;
     height: auto;
