@@ -584,6 +584,10 @@ main {
         font-size: 0.9em;
     }
 
+    .hero-subtitle {
+        text-align: center;
+    }
+
     .content-section {
         padding: 60px 15px;
     }
@@ -610,6 +614,10 @@ main {
 
     #hero p {
         font-size: 1.1em;
+    }
+
+    .hero-subtitle {
+        text-align: center;
     }
 
     .content-section {
