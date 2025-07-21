@@ -599,6 +599,15 @@ main {
     .artwork-item {
         width: 100%;
     }
+
+    br.hero-break {
+        display: none;
+    }
+
+    .years-exp {
+        display: inline;
+        text-align: center;
+    }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
