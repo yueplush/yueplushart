@@ -2,6 +2,8 @@ html {
     scroll-behavior: smooth;
 }
 
+
+
 body {
     margin: 0;
     font-family: 'Poppins', 'Noto Sans JP', sans-serif;
@@ -1073,5 +1075,30 @@ main {
     .lightbox-text {
         max-width: none;
         margin-top: 10px;
+    }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 480px) {
+    body {
+        font-size: 0.95em;
+    }
+
+    nav ul li a,
+    .patreon-button {
+        font-size: 1.1em;
+        padding: 10px 20px;
+    }
+
+    .artwork-gallery {
+        gap: 10px;
+    }
+
+    .artwork-item {
+        width: 48%;
+    }
+
+    .artwork-item.square img {
+        height: 180px;
     }
 }
