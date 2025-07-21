@@ -619,16 +619,16 @@ main {
     }
 
     #hero h1 {
-        font-size: 2.5em;
+        font-size: 2.8em; /* match PC headline size */
         white-space: nowrap;
     }
 
     #hero p {
-        font-size: 1.1em;
+        font-size: 1.2em; /* match PC subtitle size */
     }
 
     .hero-subtitle {
-        text-align: center;
+        text-align: right; /* align like PC */
     }
 
     .content-section {
@@ -1089,6 +1089,14 @@ main {
     #hero h1,
     .years-exp {
         white-space: normal;
+    }
+}
+
+/* Keep PC-style headline wrapping on tablets */
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+    #hero h1,
+    .years-exp {
+        white-space: nowrap;
     }
 }
 
