@@ -575,13 +575,13 @@ main {
     }
 
     #hero h1 {
-        font-size: 1.6em;
-        line-height: 1.3;
+        font-size: 1.2em;
+        line-height: 1.2;
         white-space: normal;
     }
 
     #hero p {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
 
     .hero-subtitle {
@@ -1018,7 +1018,7 @@ main {
 
 @media (max-width: 600px) and (orientation: portrait) {
     .hero-text {
-        max-width: 96%;
+        max-width: 100%;
     }
 }
 
