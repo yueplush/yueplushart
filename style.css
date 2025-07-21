@@ -390,7 +390,7 @@ main {
 
 .hero-subtitle {
     font-size: 1em;
-    text-align: right;
+    text-align: left;
 }
 
 .years-exp {
@@ -591,7 +591,7 @@ br.tablet-break {
     }
 
     .hero-subtitle {
-        text-align: right;
+        text-align: left;
     }
 
     .content-section {
@@ -632,7 +632,7 @@ br.tablet-break {
     }
 
     .hero-subtitle {
-        text-align: right; /* align like PC */
+        text-align: left;
     }
 
     .content-section {
