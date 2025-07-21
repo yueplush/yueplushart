@@ -993,9 +993,15 @@ main {
         text-align: center;
     }
 
-    .lightbox-text {
-        max-width: none;
-        margin-top: 10px;
+.lightbox-text {
+    max-width: none;
+    margin-top: 10px;
+}
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .hero-text {
+        max-width: 90%;
     }
 }
 
