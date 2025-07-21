@@ -399,6 +399,10 @@ main {
     white-space: nowrap;
 }
 
+br.tablet-break {
+    display: none;
+}
+
 .content-section {
     padding: 80px 20px;
     margin: 0 auto;
@@ -1092,11 +1096,19 @@ main {
     }
 }
 
-/* Keep PC-style headline wrapping on tablets */
+/* Tablet portrait adjustments */
 @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
-    #hero h1,
+    #hero h1 {
+        font-size: 2.4em;
+        white-space: normal;
+    }
+
     .years-exp {
-        white-space: nowrap;
+        white-space: normal;
+    }
+
+    br.tablet-break {
+        display: inline;
     }
 }
 
