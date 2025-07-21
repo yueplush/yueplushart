@@ -17,3 +17,20 @@ responds when a PC display is rotated vertically, covering common sizes like
 ## License
 
 This project is released under the [MIT License](LICENSE).
+
+## Robots file
+
+The repository includes a `robots.txt` file that asks web crawlers not to
+index or scrape image files. Deploy this file at the root of your domain so
+that it is reachable at `https://<your-domain>/robots.txt`.
+
+```
+User-agent: *
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.png$
+Disallow: /*.gif$
+Disallow: /*.webp$
+Disallow: /*.svg$
+```
+

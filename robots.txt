@@ -1,0 +1,13 @@
+# robots.txt for yueplushart
+# Prevent web crawlers from indexing or scraping images on this site.
+
+User-agent: *
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.png$
+Disallow: /*.gif$
+Disallow: /*.webp$
+Disallow: /*.svg$
+
+# Allow other resources
+Allow: /
