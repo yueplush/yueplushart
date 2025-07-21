@@ -1081,13 +1081,35 @@ main {
 /* Additional mobile optimizations */
 @media (max-width: 480px) {
     body {
-        font-size: 0.95em;
+        font-size: 0.9em;
+    }
+
+    #hero h1 {
+        font-size: 1.1em;
+    }
+
+    #hero p {
+        font-size: 0.85em;
     }
 
     nav ul li a,
     .patreon-button {
-        font-size: 1.1em;
-        padding: 10px 20px;
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+
+    .about-content {
+        align-items: center;
+        text-align: center;
+    }
+
+    .about-text {
+        text-align: center;
+    }
+
+    .about-avatar {
+        width: 60%;
+        max-width: 160px;
     }
 
     .artwork-gallery {
@@ -1099,6 +1121,6 @@ main {
     }
 
     .artwork-item.square img {
-        height: 180px;
+        height: 160px;
     }
 }
