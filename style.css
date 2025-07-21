@@ -809,6 +809,15 @@ main {
         display: block;
     }
 
+    #about,
+    #about h2 {
+        text-align: center;
+    }
+
+    #about .about-content {
+        align-items: center;
+    }
+
     #about .about-text p:first-child {
         margin-top: 0;
     }
