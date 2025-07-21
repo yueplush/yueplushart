@@ -323,6 +323,54 @@
         }
     };
 
+    const LazyLoadArtwork = {
+        init() {
+            const images = document.querySelectorAll('#my-artwork .artwork-gallery img');
+            if (!images.length) return;
+
+            const placeholder =
+                'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
+            const lazyImgs = [];
+            images.forEach((img, idx) => {
+                if (idx >= 6) {
+                    img.dataset.src = img.src;
+                    img.src = placeholder;
+                    img.classList.add('lazy');
+                    img.setAttribute('loading', 'lazy');
+                    lazyImgs.push(img);
+                }
+            });
+
+            if (!lazyImgs.length || !('IntersectionObserver' in window)) {
+                lazyImgs.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.classList.remove('lazy');
+                    }
+                });
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        img.classList.remove('lazy');
+                        obs.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '100px 0px' });
+
+            lazyImgs.forEach(img => observer.observe(img));
+        }
+    };
+
     const ProfileToggle = {
         init() {
             const toggle = document.getElementById('profile-toggle');
@@ -398,6 +446,7 @@
             BootScreen.init();
             Navigation.init();
             ArtworkFilters.init();
+            LazyLoadArtwork.init();
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
