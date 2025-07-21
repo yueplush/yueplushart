@@ -802,7 +802,11 @@ main {
 
 @media (max-width: 600px) {
     #about .about-avatar {
-        width: 50%;
+        width: 150px;
+        height: 150px;
+        border-radius: 0;
+        margin: 0 auto 20px;
+        display: block;
     }
 }
 
@@ -1108,8 +1112,11 @@ main {
     }
 
     .about-avatar {
-        width: 60%;
-        max-width: 160px;
+        width: 150px;
+        height: 150px;
+        max-width: none;
+        border-radius: 0;
+        margin: 0 auto 20px;
     }
 
     .artwork-gallery {
