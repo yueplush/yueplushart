@@ -575,13 +575,13 @@ main {
     }
 
     #hero h1 {
-        font-size: 1.2em;
+        font-size: 1.3em;
         line-height: 1.2;
         white-space: normal;
     }
 
     #hero p {
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
 
     .hero-subtitle {
@@ -601,11 +601,11 @@ main {
     }
 
     br.hero-break {
-        display: none;
+        display: inline;
     }
 
     .years-exp {
-        display: inline;
+        display: block;
         text-align: center;
     }
 }
