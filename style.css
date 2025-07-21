@@ -804,9 +804,13 @@ main {
     #about .about-avatar {
         width: 150px;
         height: 150px;
-        border-radius: 0;
-        margin: 0 auto 20px;
+        border-radius: 50%;
+        margin: 0 auto 10px;
         display: block;
+    }
+
+    #about .about-text p:first-child {
+        margin-top: 0;
     }
 }
 
@@ -1115,8 +1119,12 @@ main {
         width: 150px;
         height: 150px;
         max-width: none;
-        border-radius: 0;
-        margin: 0 auto 20px;
+        border-radius: 50%;
+        margin: 0 auto 10px;
+    }
+
+    .about-text p:first-child {
+        margin-top: 0;
     }
 
     .artwork-gallery {
