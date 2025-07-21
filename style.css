@@ -823,6 +823,20 @@ main {
     }
 }
 
+@media (max-width: 600px) {
+    #my-artwork,
+    #my-artwork h2,
+    #my-artwork .artwork-content {
+        text-align: center;
+    }
+
+    #my-artwork .artwork-gallery,
+    .artwork-filters,
+    .sub-filters {
+        justify-content: center;
+    }
+}
+
 .email {
     font-size: 1rem; /* match button text size */
 }
