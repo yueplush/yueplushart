@@ -1001,7 +1001,7 @@ main {
 
 @media (max-width: 600px) and (orientation: portrait) {
     .hero-text {
-        max-width: 90%;
+        max-width: 96%;
     }
 }
 
