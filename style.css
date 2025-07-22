@@ -1,13 +1,14 @@
 html {
     scroll-behavior: smooth;
+    height: 100%;
 }
-
-
 
 body {
     margin: 0;
+    height: 100%;
     font-family: 'Poppins', 'Noto Sans JP', sans-serif;
     color: #fff;
+    background-color: #000; /* ブート画面の黒を隅まで */
     padding-top: 80px; /* ヘッダーの高さと余白を考慮 */
 }
 
@@ -15,9 +16,10 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: radial-gradient(circle at center, #001 0%, #000 80%);
+    background-color: #000;
     filter: url(#crt-distortion);
     transform: scale(1.01);
     display: flex;
