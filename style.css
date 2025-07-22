@@ -936,6 +936,12 @@ br.tablet-break {
     margin: 0;
 }
 
+/* Highlight network link buttons when pressed */
+.network-links .profile-link-btn:active {
+    background-color: #bcdfff;
+    color: #000;
+}
+
 #network-link .network-link-content {
     margin-left: auto;
     margin-right: auto;
