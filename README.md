@@ -44,9 +44,10 @@ Disallow: /*.svg$
 
 ## Advanced Anti-Scrape Logic
 
-The JavaScript has a simple bot detector that checks for common automation
-signatures such as the `navigator.webdriver` flag or user agents containing
-`bot` or `crawl`. Images encoded in Base64 are only decoded after the visitor
-interacts with the page (mouse move, scroll, key press or touch). This aims to
-thwart basic headless scrapers while remaining unobtrusive for real users.
+The JavaScript includes a bot detector that now checks additional signals such
+as missing plugins or languages and zero sized outer window.  Images are
+obfuscated using an XOR cipher on top of Base64 and are only decoded a short
+while after the first user interaction (mouse move, scroll, key press or
+touch).  This extra layer further discourages automated scraping while keeping
+the site seamless for normal visitors.
 
