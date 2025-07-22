@@ -353,6 +353,8 @@
                 img.classList.remove('lazy');
             };
 
+            const preloadCount = 6;
+
             if (!('IntersectionObserver' in window)) {
                 images.forEach(loadImg);
                 return;
@@ -367,7 +369,13 @@
                 });
             }, { rootMargin: '100px 0px' });
 
-            images.forEach(img => observer.observe(img));
+            images.forEach((img, idx) => {
+                if (idx < preloadCount) {
+                    loadImg(img);
+                } else {
+                    observer.observe(img);
+                }
+            });
         }
     };
 
