@@ -52,30 +52,40 @@
 
             heroSection.classList.add('hidden');
 
-            const menu = nav.querySelector('ul');
+           const menu = nav.querySelector('ul');
+            let menuAnimating = false;
 
-           const openMenu = () => {
+            const openMenu = () => {
+                if (menuAnimating || nav.classList.contains('open')) return;
+                menuAnimating = true;
                 menu.style.display = 'flex';
                 void menu.offsetWidth;
                 nav.classList.remove('closing');
                 nav.classList.add('open');
+                setTimeout(() => {
+                    menuAnimating = false;
+                }, 350);
             };
 
             const closeMenu = () => {
-                if (!nav.classList.contains('open')) return;
+                if (menuAnimating || !nav.classList.contains('open')) return;
+                menuAnimating = true;
                 nav.classList.add('closing');
                 nav.classList.remove('open');
                 const onEnd = e => {
                     if (e && e.target !== menu) return;
                     menu.style.display = 'none';
                     nav.classList.remove('closing');
+                    menuAnimating = false;
                 };
                 menu.addEventListener('transitionend', onEnd, { once: true });
                 setTimeout(onEnd, 400);
             };
 
-            const toggleMenu = () =>
+            const toggleMenu = () => {
+                if (menuAnimating) return;
                 nav.classList.contains('open') ? closeMenu() : openMenu();
+            };
 
             const showSection = async section => {
                 if (activeSection === section) return;
