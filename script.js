@@ -107,17 +107,17 @@
                 menuToggle.addEventListener('click', toggleMenu);
             }
 
-            navLinks.forEach(link => {
+            nav.addEventListener('click', e => {
+                const link = e.target.closest('a[data-section]');
+                if (!link) return;
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
                 const target = document.getElementById(link.dataset.section);
-                link.addEventListener('click', e => {
-                    e.preventDefault();
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                    showSection(target);
-                    if (nav.classList.contains('open')) {
-                        closeMenu();
-                    }
-                });
+                showSection(target);
+                if (nav.classList.contains('open')) {
+                    closeMenu();
+                }
             });
         }
     };
@@ -129,7 +129,7 @@
             const subBtns = document.querySelectorAll('.sub-btn');
             const items = Array.from(document.querySelectorAll('.artwork-item'));
             items.forEach(item => {
-                item.tags = item.dataset.tags.split(' ');
+                item.tagSet = new Set(item.dataset.tags.split(' '));
             });
             const popup = document.getElementById('suggestive-popup');
             const adultCheck = document.getElementById('adult-check');
@@ -210,10 +210,10 @@
 
             function applyFilters() {
                 items.forEach(item => {
-                    const tags = item.tags;
-                    const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
-                    const matchesSub = !currentSub || tags.includes(currentSub);
-                    const isSuggestive = tags.includes('suggestive');
+                    const tags = item.tagSet;
+                    const matchesFilter = currentFilter === 'all' || tags.has(currentFilter);
+                    const matchesSub = !currentSub || tags.has(currentSub);
+                    const isSuggestive = tags.has('suggestive');
 
                     let visible = matchesFilter && matchesSub;
                     if (currentFilter === 'suggestive' && !currentSub) {
