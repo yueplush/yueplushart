@@ -378,7 +378,7 @@ main {
 }
 
 .hero-text {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -386,6 +386,7 @@ main {
     text-align: center;
     width: 100%;
     max-width: 960px;
+    z-index: 102;
 }
 
 .hero-subtitle {
