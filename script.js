@@ -133,12 +133,14 @@
             let adultOk = false;
             let currentFilter = 'all';
             let currentSub = '';
+            let prevFilterBtn = document.querySelector('.filter-btn.active');
 
             // Initially hide suggestive artwork from the "ALL" view
             applyFilters();
 
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    prevFilterBtn = document.querySelector('.filter-btn.active');
                     filterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     currentFilter = btn.dataset.filter;
@@ -182,6 +184,21 @@
                 applyFilters();
             });
 
+            function cancelPopup() {
+                hidePopup();
+                if (prevFilterBtn) {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    prevFilterBtn.classList.add('active');
+                    currentFilter = prevFilterBtn.dataset.filter;
+                } else {
+                    currentFilter = 'all';
+                }
+                subFilters.classList.add('hidden');
+                subBtns.forEach(b => b.classList.remove('active'));
+                currentSub = '';
+                applyFilters();
+            }
+
             function showPopup() {
                 popup.classList.remove('hidden');
                 void popup.offsetWidth;
@@ -202,6 +219,12 @@
                     { once: true }
                 );
             }
+
+            popup.addEventListener('click', e => {
+                if (e.target === popup) {
+                    cancelPopup();
+                }
+            });
 
             function applyFilters() {
                 items.forEach(item => {
