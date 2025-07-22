@@ -125,7 +125,8 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             const subFilters = document.querySelector('.sub-filters');
             const subBtns = document.querySelectorAll('.sub-btn');
-            const items = Array.from(document.querySelectorAll('.artwork-item'));
+            const items = Array.from(document.querySelectorAll('.artwork-item'))
+                .map(el => ({ el, tags: el.dataset.tags.split(' ') }));
             const popup = document.getElementById('suggestive-popup');
             const adultCheck = document.getElementById('adult-check');
             const confirmBtn = document.getElementById('confirm-adult');
@@ -227,8 +228,7 @@
             });
 
             function applyFilters() {
-                items.forEach(item => {
-                    const tags = item.dataset.tags.split(' ');
+                items.forEach(({ el, tags }) => {
                     const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
                     const matchesSub = !currentSub || tags.includes(currentSub);
                     const isSuggestive = tags.includes('suggestive');
@@ -241,7 +241,7 @@
                         visible = false;
                     }
 
-                    item.style.display = visible ? 'block' : 'none';
+                    el.style.display = visible ? 'block' : 'none';
                 });
             }
         }
@@ -308,49 +308,53 @@
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     resize();
 
     const bubbleCount = 40;
-    const bubbles = [];
+    const xs = new Float32Array(bubbleCount);
+    const ys = new Float32Array(bubbleCount);
+    const rs = new Float32Array(bubbleCount);
+    const speeds = new Float32Array(bubbleCount);
+    const drifts = new Float32Array(bubbleCount);
+    const alphas = new Float32Array(bubbleCount);
 
-    function createBubble() {
-        return {
-            x: Math.random() * width,
-            y: Math.random() * height,
-            r: 2 + Math.random() * 6,
-            speed: 0.5 + Math.random() * 1.5,
-            drift: (Math.random() * 2 - 1) * 0.5,
-            alpha: 0.2 + Math.random() * 0.4
-        };
+    function initBubble(i) {
+        xs[i] = Math.random() * width;
+        ys[i] = Math.random() * height;
+        rs[i] = 2 + Math.random() * 6;
+        speeds[i] = 0.5 + Math.random() * 1.5;
+        drifts[i] = (Math.random() * 2 - 1) * 0.5;
+        alphas[i] = 0.2 + Math.random() * 0.4;
     }
 
     for (let i = 0; i < bubbleCount; i++) {
-        bubbles.push(createBubble());
+        initBubble(i);
     }
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
-        bubbles.forEach(b => {
-            b.y -= b.speed;
-            b.x += b.drift;
-            if (b.y + b.r < 0) {
-                b.y = height + b.r;
-                b.x = Math.random() * width;
+        for (let i = 0; i < bubbleCount; i++) {
+            ys[i] -= speeds[i];
+            xs[i] += drifts[i];
+            if (ys[i] + rs[i] < 0) {
+                ys[i] = height + rs[i];
+                xs[i] = Math.random() * width;
             }
             ctx.save();
             ctx.beginPath();
-            const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-            gradient.addColorStop(0, `rgba(255,255,200,${b.alpha})`);
-            gradient.addColorStop(0.7, `rgba(255,255,150,${b.alpha * 0.6})`);
+            const gradient = ctx.createRadialGradient(xs[i], ys[i], 0, xs[i], ys[i], rs[i]);
+            const a = alphas[i];
+            gradient.addColorStop(0, `rgba(255,255,200,${a})`);
+            gradient.addColorStop(0.7, `rgba(255,255,150,${a * 0.6})`);
             gradient.addColorStop(1, 'rgba(255,255,100,0)');
             ctx.fillStyle = gradient;
-            ctx.shadowColor = `rgba(255,255,150,${b.alpha})`;
-            ctx.shadowBlur = b.r * 2;
-            ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            ctx.shadowColor = `rgba(255,255,150,${a})`;
+            ctx.shadowBlur = rs[i] * 2;
+            ctx.arc(xs[i], ys[i], rs[i], 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
-        });
+        }
         requestAnimationFrame(draw);
     }
     draw();
@@ -464,7 +468,8 @@
                 finished = true;
                 clearTimeout(timer);
                 boot.classList.add('fade-out');
-                ['click', 'touchstart'].forEach(ev => boot.removeEventListener(ev, finishBoot));
+                const evtOpts = { passive: true };
+                ['click', 'touchstart'].forEach(ev => boot.removeEventListener(ev, finishBoot, evtOpts));
                 document.dispatchEvent(new Event('bootFinished'));
                 if (crt) {
                     crt.classList.add('fade-out');
@@ -486,7 +491,8 @@
                 timer = setTimeout(addLine, delay);
             };
 
-            ['click', 'touchstart'].forEach(ev => boot.addEventListener(ev, finishBoot));
+            const evtOpts = { passive: true };
+            ['click', 'touchstart'].forEach(ev => boot.addEventListener(ev, finishBoot, evtOpts));
 
             addLine();
         }

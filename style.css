@@ -27,6 +27,7 @@ body {
     box-sizing: border-box;
     z-index: 10000;
     overflow: hidden;
+    will-change: opacity, transform;
 }
 
 #boot-screen::before {
@@ -189,6 +190,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: -1; /* 背景とコンテンツの間 */
+    will-change: transform;
 }
 
 
@@ -353,6 +355,7 @@ main {
     color: #fff;
     z-index: 101; /* ヘッダーより前面に配置 */
     transition: opacity 0.5s ease-in-out;
+    will-change: opacity, transform;
 }
 
 #hero.hidden {
