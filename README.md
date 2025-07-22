@@ -29,8 +29,9 @@ This project is released under the [MIT License](LICENSE).
 ## Robots file
 
 The repository includes a `robots.txt` file that asks web crawlers not to
-index or scrape image files. Deploy this file at the root of your domain so
-that it is reachable at `https://<your-domain>/robots.txt`.
+index or scrape image files and explicitly blocks a few known automated
+agents. Deploy this file at the root of your domain so that it is reachable
+at `https://<your-domain>/robots.txt`.
 
 ```
 User-agent: *
@@ -44,10 +45,12 @@ Disallow: /*.svg$
 
 ## Advanced Anti-Scrape Logic
 
-The JavaScript includes a bot detector that now checks additional signals such
-as missing plugins or languages and zero sized outer window.  Images are
-obfuscated using an XOR cipher on top of Base64 and are only decoded a short
-while after the first user interaction (mouse move, scroll, key press or
-touch).  This extra layer further discourages automated scraping while keeping
-the site seamless for normal visitors.
+The JavaScript includes a bot detector that checks user agent strings,
+plugin and MIME type presence, hardware concurrency, requestAnimationFrame
+support and timezone information. Images are obfuscated using an XOR cipher on
+top of Base64. The decryption key is stored in an encoded form and images are
+decoded a short while after the first user interaction. Interactions that occur
+immediately after load are ignored to catch automated scripts. These small
+layers discourage automated scraping while keeping the site seamless for normal
+visitors.
 

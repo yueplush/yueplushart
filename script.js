@@ -530,8 +530,17 @@
             if (/bot|crawl|spider|headless|scrape/.test(ua)) return true;
             if (navigator.webdriver) return true;
             if (!navigator.plugins || navigator.plugins.length === 0) return true;
+            if (!navigator.mimeTypes || navigator.mimeTypes.length === 0) return true;
             if (!navigator.languages || navigator.languages.length === 0) return true;
+            if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 1) return true;
             if (window.outerWidth === 0 || window.outerHeight === 0) return true;
+            if (!window.requestAnimationFrame) return true;
+            try {
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (!tz) return true;
+            } catch (e) {
+                return true;
+            }
             return false;
         }
     };
@@ -546,7 +555,8 @@
             return out;
         },
         decodeImages() {
-            const key = 'secret';
+            const parts = ['c', '2', 'V', 'j', 'cmV0'];
+            const key = atob(parts.join(''));
             document.querySelectorAll('img[data-xor-src]').forEach(img => {
                 const enc = img.dataset.xorSrc;
                 if (!enc) return;
@@ -560,8 +570,11 @@
         },
         init() {
             if (BotDetector.isLikelyBot()) return;
+            const pageLoad = performance.now();
             const trigger = () => {
-                setTimeout(AntiScrape.decodeImages, 200 + Math.random() * 500);
+                const sinceLoad = performance.now() - pageLoad;
+                if (sinceLoad < 100) return; // ignore suspiciously fast interaction
+                setTimeout(AntiScrape.decodeImages, 1000 + Math.random() * 1000);
                 events.forEach(ev => window.removeEventListener(ev, trigger));
             };
             const events = ['mousemove', 'scroll', 'keydown', 'touchstart'];

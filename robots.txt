@@ -22,5 +22,3 @@ Disallow: /
 User-agent: anthropic-ai
 Disallow: /
 
-User-agent: *
-Disallow: /
