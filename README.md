@@ -42,3 +42,11 @@ Disallow: /*.webp$
 Disallow: /*.svg$
 ```
 
+## Advanced Anti-Scrape Logic
+
+The JavaScript has a simple bot detector that checks for common automation
+signatures such as the `navigator.webdriver` flag or user agents containing
+`bot` or `crawl`. Images encoded in Base64 are only decoded after the visitor
+interacts with the page (mouse move, scroll, key press or touch). This aims to
+thwart basic headless scrapers while remaining unobtrusive for real users.
+
