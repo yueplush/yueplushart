@@ -54,9 +54,10 @@
 
             const menu = nav.querySelector('ul');
 
-            const openMenu = () => {
+           const openMenu = () => {
                 menu.style.display = 'flex';
                 void menu.offsetWidth;
+                nav.classList.remove('closing');
                 nav.classList.add('open');
             };
 
@@ -64,16 +65,13 @@
                 if (!nav.classList.contains('open')) return;
                 nav.classList.add('closing');
                 nav.classList.remove('open');
-                menu.addEventListener(
-                    'transitionend',
-                    e => {
-                        if (e.target === menu) {
-                            menu.style.display = 'none';
-                            nav.classList.remove('closing');
-                        }
-                    },
-                    { once: true }
-                );
+                const onEnd = e => {
+                    if (e && e.target !== menu) return;
+                    menu.style.display = 'none';
+                    nav.classList.remove('closing');
+                };
+                menu.addEventListener('transitionend', onEnd, { once: true });
+                setTimeout(onEnd, 400);
             };
 
             const toggleMenu = () =>
