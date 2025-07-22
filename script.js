@@ -303,6 +303,8 @@
             if (!canvas || !canvas.getContext) return;
             const ctx = canvas.getContext('2d');
             let width, height;
+            let running = true;
+            let rafId;
 
     function resize() {
         width = canvas.width = window.innerWidth;
@@ -333,6 +335,7 @@
     }
 
     function draw() {
+        if (!running) return;
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < bubbleCount; i++) {
             ys[i] -= speeds[i];
@@ -355,11 +358,21 @@
             ctx.fill();
             ctx.restore();
         }
-        requestAnimationFrame(draw);
+        rafId = requestAnimationFrame(draw);
     }
-    draw();
+    rafId = requestAnimationFrame(draw);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            running = false;
+            if (rafId) cancelAnimationFrame(rafId);
+        } else if (!running) {
+            running = true;
+            rafId = requestAnimationFrame(draw);
         }
-    };
+    });
+    }
+};   
 
     const LazyLoadArtwork = {
         init() {
