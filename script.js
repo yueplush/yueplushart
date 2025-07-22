@@ -524,8 +524,24 @@
         }
     };
 
+    const AntiScrape = {
+        init() {
+            document.querySelectorAll('img[data-enc-src]').forEach(img => {
+                const enc = img.dataset.encSrc;
+                if (!enc) return;
+                try {
+                    img.src = atob(enc);
+                    img.removeAttribute('data-enc-src');
+                } catch (e) {
+                    // ignore invalid data
+                }
+            });
+        }
+    };
+
     const App = {
         init() {
+            AntiScrape.init();
             BootScreen.init();
             Navigation.init();
             ArtworkFilters.init();
