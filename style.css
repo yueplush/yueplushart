@@ -12,6 +12,14 @@ body {
     padding-top: 80px; /* ヘッダーの高さと余白を考慮 */
 }
 
+/* Disable iOS/Android long‑press save dialogs on images */
+img {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
 #boot-screen {
     position: fixed;
     top: 0;
