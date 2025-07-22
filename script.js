@@ -136,9 +136,6 @@
             const subFilters = document.querySelector('.sub-filters');
             const subBtns = document.querySelectorAll('.sub-btn');
             const items = Array.from(document.querySelectorAll('.artwork-item'));
-            items.forEach(item => {
-                item.tagSet = new Set(item.dataset.tags.split(' '));
-            });
             const popup = document.getElementById('suggestive-popup');
             const adultCheck = document.getElementById('adult-check');
             const confirmBtn = document.getElementById('confirm-adult');
@@ -218,10 +215,10 @@
 
             function applyFilters() {
                 items.forEach(item => {
-                    const tags = item.tagSet;
-                    const matchesFilter = currentFilter === 'all' || tags.has(currentFilter);
-                    const matchesSub = !currentSub || tags.has(currentSub);
-                    const isSuggestive = tags.has('suggestive');
+                    const tags = item.dataset.tags.split(' ');
+                    const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
+                    const matchesSub = !currentSub || tags.includes(currentSub);
+                    const isSuggestive = tags.includes('suggestive');
 
                     let visible = matchesFilter && matchesSub;
                     if (currentFilter === 'suggestive' && !currentSub) {
@@ -239,7 +236,7 @@
 
     const Lightbox = {
         init() {
-            const items = document.querySelectorAll('.artwork-item');
+            const gallery = document.querySelector('.artwork-gallery');
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             const title = document.getElementById('lightbox-title');
@@ -260,8 +257,10 @@
         );
     }
 
-    items.forEach(item => {
-        item.addEventListener('click', () => {
+    if (gallery) {
+        gallery.addEventListener('click', e => {
+            const item = e.target.closest('.artwork-item');
+            if (!item) return;
             const itemImg = item.querySelector('img');
             img.src = itemImg.src;
             img.alt = itemImg.alt;
@@ -271,7 +270,7 @@
             void lightbox.offsetWidth;
             lightbox.classList.add('visible');
         });
-    });
+    }
 
     // Allow closing the lightbox by clicking on the image itself on all
     // devices including desktop and tablets.
@@ -350,14 +349,11 @@
             const images = document.querySelectorAll('#my-artwork .artwork-gallery img');
             if (!images.length) return;
 
-            const placeholder =
-                'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-
             const lazyImgs = [];
             images.forEach((img, idx) => {
                 if (idx >= 6) {
                     img.dataset.src = img.src;
-                    img.src = placeholder;
+                    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
                     img.classList.add('lazy');
                     img.setAttribute('loading', 'lazy');
                     lazyImgs.push(img);
@@ -435,6 +431,8 @@
                 if (boot.classList.contains('fade-out')) return;
                 clearTimeout(timer);
                 boot.classList.add('fade-out');
+                ['click', 'touchstart'].forEach(ev => boot.removeEventListener(ev, finishBoot));
+                lines.length = 0;
                 document.dispatchEvent(new Event('bootFinished'));
                 if (crt) {
                     crt.classList.add('fade-out');
