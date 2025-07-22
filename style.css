@@ -384,8 +384,8 @@ main {
     transform: translate(-50%, -50%);
     display: inline-block;
     text-align: center;
-    width: auto;
-    max-width: none;
+    width: 100%;
+    max-width: 960px;
 }
 
 .hero-subtitle {
