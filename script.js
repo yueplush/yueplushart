@@ -82,9 +82,6 @@
                 if (activeSection) await Utils.fadeOut(activeSection);
                 activeSection = section;
                 if (section) await Utils.fadeIn(section);
-                if (section && section.id === 'my-artwork') {
-                    LazyLoadArtwork.init();
-                }
 
                 if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
                     if (section === heroSection) {
@@ -338,44 +335,47 @@
     };
 
     const LazyLoadArtwork = {
-        initialized: false,
-        init(immediate = false) {
-            if (this.initialized) return;
-            const images = document.querySelectorAll('#my-artwork .artwork-gallery img[data-src]');
+        init() {
+            const images = document.querySelectorAll('#my-artwork .artwork-gallery img');
             if (!images.length) return;
-            this.initialized = true;
 
-            const loadImg = img => {
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
+            const lazyImgs = [];
+            images.forEach((img, idx) => {
+                if (idx >= 6) {
+                    img.dataset.src = img.src;
+                    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+                    img.classList.add('lazy');
+                    img.setAttribute('loading', 'lazy');
+                    lazyImgs.push(img);
                 }
-                img.classList.remove('lazy');
-            };
+            });
 
-            const preloadCount = 6;
-
-            if (immediate || !('IntersectionObserver' in window)) {
-                images.forEach(loadImg);
+            if (!lazyImgs.length || !('IntersectionObserver' in window)) {
+                lazyImgs.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.classList.remove('lazy');
+                    }
+                });
                 return;
             }
 
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        loadImg(entry.target);
-                        obs.unobserve(entry.target);
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        img.classList.remove('lazy');
+                        obs.unobserve(img);
                     }
                 });
             }, { rootMargin: '100px 0px' });
 
-            images.forEach((img, idx) => {
-                if (idx < preloadCount) {
-                    loadImg(img);
-                } else {
-                    observer.observe(img);
-                }
-            });
+            lazyImgs.forEach(img => observer.observe(img));
         }
     };
 
@@ -410,7 +410,25 @@
         init() {
             const boot = document.getElementById('boot-screen');
             const crt = document.getElementById('crt-overlay');
+            const filter = document.getElementById('crt-distortion');
             if (!boot) return;
+
+            if (filter) {
+                fetch('boot-config.json')
+                    .then(r => r.ok ? r.json() : null)
+                    .then(cfg => {
+                        if (!cfg || !cfg.crt) return;
+                        const turb = filter.querySelector('feTurbulence');
+                        const disp = filter.querySelector('feDisplacementMap');
+                        if (turb && cfg.crt.baseFrequencyX && cfg.crt.baseFrequencyY) {
+                            turb.setAttribute('baseFrequency', `${cfg.crt.baseFrequencyX} ${cfg.crt.baseFrequencyY}`);
+                        }
+                        if (disp && cfg.crt.scale) {
+                            disp.setAttribute('scale', cfg.crt.scale);
+                        }
+                    })
+                    .catch(() => {});
+            }
 
             const container = boot.querySelector('.boot-container');
             let index = 0;
@@ -456,10 +474,10 @@
             BootScreen.init();
             Navigation.init();
             ArtworkFilters.init();
+            LazyLoadArtwork.init();
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
-            LazyLoadArtwork.init(true);
         }
     };
 
