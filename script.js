@@ -539,6 +539,18 @@
         }
     };
 
+    const RightClickBlocker = {
+        init() {
+            const desktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            if (!desktop) return;
+            document.addEventListener('contextmenu', e => {
+                if (e.target.closest('img')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    };
+
     const App = {
         init() {
             AntiScrape.init();
@@ -549,6 +561,7 @@
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
+            RightClickBlocker.init();
         }
     };
 
