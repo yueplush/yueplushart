@@ -11,3 +11,16 @@ Disallow: /*.svg$
 
 # Allow other resources
 Allow: /
+
+# Additional bots disallowed
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: *
+Disallow: /
