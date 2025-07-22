@@ -524,8 +524,18 @@
         }
     };
 
+    const BotDetector = {
+        isLikelyBot() {
+            const ua = navigator.userAgent.toLowerCase();
+            if (/bot|crawl|spider|headless|scrape/.test(ua)) return true;
+            if (navigator.webdriver) return true;
+            if (navigator.plugins && navigator.plugins.length === 0) return true;
+            return false;
+        }
+    };
+
     const AntiScrape = {
-        init() {
+        decodeImages() {
             document.querySelectorAll('img[data-enc-src]').forEach(img => {
                 const enc = img.dataset.encSrc;
                 if (!enc) return;
@@ -536,6 +546,15 @@
                     // ignore invalid data
                 }
             });
+        },
+        init() {
+            if (BotDetector.isLikelyBot()) return;
+            const trigger = () => {
+                AntiScrape.decodeImages();
+                events.forEach(ev => window.removeEventListener(ev, trigger));
+            };
+            const events = ['mousemove', 'scroll', 'keydown', 'touchstart'];
+            events.forEach(ev => window.addEventListener(ev, trigger, { once: true, passive: true }));
         }
     };
 
