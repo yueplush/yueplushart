@@ -529,19 +529,30 @@
             const ua = navigator.userAgent.toLowerCase();
             if (/bot|crawl|spider|headless|scrape/.test(ua)) return true;
             if (navigator.webdriver) return true;
-            if (navigator.plugins && navigator.plugins.length === 0) return true;
+            if (!navigator.plugins || navigator.plugins.length === 0) return true;
+            if (!navigator.languages || navigator.languages.length === 0) return true;
+            if (window.outerWidth === 0 || window.outerHeight === 0) return true;
             return false;
         }
     };
 
     const AntiScrape = {
+        xorDecode(enc, key) {
+            const bin = atob(enc);
+            let out = '';
+            for (let i = 0; i < bin.length; i++) {
+                out += String.fromCharCode(bin.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return out;
+        },
         decodeImages() {
-            document.querySelectorAll('img[data-enc-src]').forEach(img => {
-                const enc = img.dataset.encSrc;
+            const key = 'secret';
+            document.querySelectorAll('img[data-xor-src]').forEach(img => {
+                const enc = img.dataset.xorSrc;
                 if (!enc) return;
                 try {
-                    img.src = atob(enc);
-                    img.removeAttribute('data-enc-src');
+                    img.src = AntiScrape.xorDecode(enc, key);
+                    img.removeAttribute('data-xor-src');
                 } catch (e) {
                     // ignore invalid data
                 }
@@ -550,7 +561,7 @@
         init() {
             if (BotDetector.isLikelyBot()) return;
             const trigger = () => {
-                AntiScrape.decodeImages();
+                setTimeout(AntiScrape.decodeImages, 200 + Math.random() * 500);
                 events.forEach(ev => window.removeEventListener(ev, trigger));
             };
             const events = ['mousemove', 'scroll', 'keydown', 'touchstart'];
