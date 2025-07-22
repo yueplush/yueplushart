@@ -1,6 +1,11 @@
 (() => {
     'use strict';
 
+    const PASSIVE = { passive: true };
+    const POINTER_EVENTS = ['click', 'touchstart'];
+    const addEvents = (el, events, handler, opts) => events.forEach(ev => el.addEventListener(ev, handler, opts));
+    const removeEvents = (el, events, handler, opts) => events.forEach(ev => el.removeEventListener(ev, handler, opts));
+
     const Utils = {
         waitForTransition(element) {
             return new Promise(resolve => {
@@ -9,7 +14,7 @@
                         resolve();
                     }
                 };
-                element.addEventListener('transitionend', onEnd, { once: true, passive: true });
+                element.addEventListener('transitionend', onEnd, { once: true, ...PASSIVE });
             });
         },
         async fadeOut(element) {
@@ -68,7 +73,7 @@
                     nav.classList.remove('closing');
                     menuAnimating = false;
                 };
-                menu.addEventListener('transitionend', onEnd, { once: true, passive: true });
+                menu.addEventListener('transitionend', onEnd, { once: true, ...PASSIVE });
                 setTimeout(onEnd, 400);
             };
 
@@ -94,7 +99,7 @@
                 }
             };
 
-            heroSection.addEventListener('click', () => showSection(null), { passive: true });
+            heroSection.addEventListener('click', () => showSection(null), PASSIVE);
             document.addEventListener('bootFinished', () => {
                 Utils.fadeIn(heroSection).then(() => {
                     activeSection = heroSection;
@@ -217,7 +222,7 @@
                             confirmBtn.disabled = true;
                         }
                     },
-                    { once: true, passive: true }
+                    { once: true, ...PASSIVE }
                 );
             }
 
@@ -259,14 +264,14 @@
 
     function closeLightbox() {
         lightbox.classList.remove('visible');
-        lightbox.addEventListener(
+            lightbox.addEventListener(
             'transitionend',
             ev => {
                 if (ev.target === lightbox) {
                     lightbox.classList.add('hidden');
                 }
             },
-            { once: true, passive: true }
+            { once: true, ...PASSIVE }
         );
     }
 
@@ -301,6 +306,7 @@
         init() {
             const canvas = document.getElementById('bubble-canvas');
             if (!canvas || !canvas.getContext) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             const ctx = canvas.getContext('2d');
             let width, height;
             let running = true;
@@ -320,7 +326,7 @@
             });
         }
     }
-    window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('resize', onResize, PASSIVE);
     resize();
 
     const bubbleCount = 40;
@@ -426,7 +432,7 @@
                         obs.unobserve(img);
                     }
                 });
-            }, { rootMargin: '100px 0px' });
+            }, { rootMargin: '200px 0px' });
 
             lazyImgs.forEach(img => observer.observe(img));
         }
@@ -494,8 +500,7 @@
                 finished = true;
                 clearTimeout(timer);
                 boot.classList.add('fade-out');
-                const evtOpts = { passive: true };
-                ['click', 'touchstart'].forEach(ev => boot.removeEventListener(ev, finishBoot, evtOpts));
+                removeEvents(boot, POINTER_EVENTS, finishBoot, PASSIVE);
                 document.dispatchEvent(new Event('bootFinished'));
                 if (crt) {
                     crt.classList.add('fade-out');
@@ -517,8 +522,7 @@
                 timer = setTimeout(addLine, delay);
             };
 
-            const evtOpts = { passive: true };
-            ['click', 'touchstart'].forEach(ev => boot.addEventListener(ev, finishBoot, evtOpts));
+            addEvents(boot, POINTER_EVENTS, finishBoot, PASSIVE);
 
             addLine();
         }
@@ -578,7 +582,7 @@
                 events.forEach(ev => window.removeEventListener(ev, trigger));
             };
             const events = ['mousemove', 'scroll', 'keydown', 'touchstart'];
-            events.forEach(ev => window.addEventListener(ev, trigger, { once: true, passive: true }));
+            events.forEach(ev => window.addEventListener(ev, trigger, { once: true, ...PASSIVE }));
         }
     };
 
