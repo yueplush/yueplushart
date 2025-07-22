@@ -9,7 +9,7 @@
                         resolve();
                     }
                 };
-                element.addEventListener('transitionend', onEnd, { once: true });
+                element.addEventListener('transitionend', onEnd, { once: true, passive: true });
             });
         },
         async fadeOut(element) {
@@ -68,7 +68,7 @@
                     nav.classList.remove('closing');
                     menuAnimating = false;
                 };
-                menu.addEventListener('transitionend', onEnd, { once: true });
+                menu.addEventListener('transitionend', onEnd, { once: true, passive: true });
                 setTimeout(onEnd, 400);
             };
 
@@ -94,7 +94,7 @@
                 }
             };
 
-            heroSection.addEventListener('click', () => showSection(null));
+            heroSection.addEventListener('click', () => showSection(null), { passive: true });
             document.addEventListener('bootFinished', () => {
                 Utils.fadeIn(heroSection).then(() => {
                     activeSection = heroSection;
@@ -217,7 +217,7 @@
                             confirmBtn.disabled = true;
                         }
                     },
-                    { once: true }
+                    { once: true, passive: true }
                 );
             }
 
@@ -266,7 +266,7 @@
                     lightbox.classList.add('hidden');
                 }
             },
-            { once: true }
+            { once: true, passive: true }
         );
     }
 
@@ -310,7 +310,17 @@
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resize, { passive: true });
+    let resizeScheduled = false;
+    function onResize() {
+        if (!resizeScheduled) {
+            resizeScheduled = true;
+            requestAnimationFrame(() => {
+                resize();
+                resizeScheduled = false;
+            });
+        }
+    }
+    window.addEventListener('resize', onResize, { passive: true });
     resize();
 
     const bubbleCount = 40;
@@ -386,6 +396,7 @@
                     img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
                     img.classList.add('lazy');
                     img.setAttribute('loading', 'lazy');
+                    img.setAttribute('decoding', 'async');
                     lazyImgs.push(img);
                 }
             });
@@ -395,6 +406,7 @@
                     if (img.dataset.src) {
                         img.src = img.dataset.src;
                         img.removeAttribute('data-src');
+                        if (img.decode) img.decode().catch(() => {});
                         img.classList.remove('lazy');
                     }
                 });
@@ -408,6 +420,7 @@
                         if (img.dataset.src) {
                             img.src = img.dataset.src;
                             img.removeAttribute('data-src');
+                            if (img.decode) img.decode().catch(() => {});
                         }
                         img.classList.remove('lazy');
                         obs.unobserve(img);
