@@ -339,7 +339,7 @@
 
     const LazyLoadArtwork = {
         initialized: false,
-        init() {
+        init(immediate = false) {
             if (this.initialized) return;
             const images = document.querySelectorAll('#my-artwork .artwork-gallery img[data-src]');
             if (!images.length) return;
@@ -355,7 +355,7 @@
 
             const preloadCount = 6;
 
-            if (!('IntersectionObserver' in window)) {
+            if (immediate || !('IntersectionObserver' in window)) {
                 images.forEach(loadImg);
                 return;
             }
@@ -459,6 +459,7 @@
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
+            LazyLoadArtwork.init(true);
         }
     };
 
