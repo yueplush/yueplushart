@@ -6,13 +6,16 @@
             return new Promise(resolve => {
                 element.classList.remove('visible');
                 element.classList.add('hidden');
-                element.addEventListener('transitionend', function handler(e) {
-                    if (e.target === element) {
-                        element.style.display = 'none';
-                        element.removeEventListener('transitionend', handler);
-                        resolve();
-                    }
-                });
+                element.addEventListener(
+                    'transitionend',
+                    e => {
+                        if (e.target === element) {
+                            element.style.display = 'none';
+                            resolve();
+                        }
+                    },
+                    { once: true }
+                );
             });
         },
         fadeIn(element) {
@@ -21,12 +24,15 @@
             return new Promise(resolve => {
                 element.classList.remove('hidden');
                 element.classList.add('visible');
-                element.addEventListener('transitionend', function handler(e) {
-                    if (e.target === element) {
-                        element.removeEventListener('transitionend', handler);
-                        resolve();
-                    }
-                });
+                element.addEventListener(
+                    'transitionend',
+                    e => {
+                        if (e.target === element) {
+                            resolve();
+                        }
+                    },
+                    { once: true }
+                );
             });
         }
     };
@@ -58,13 +64,16 @@
                 if (!nav.classList.contains('open')) return;
                 nav.classList.add('closing');
                 nav.classList.remove('open');
-                menu.addEventListener('transitionend', function handler(e) {
-                    if (e.target === menu) {
-                        menu.style.display = 'none';
-                        nav.classList.remove('closing');
-                        menu.removeEventListener('transitionend', handler);
-                    }
-                });
+                menu.addEventListener(
+                    'transitionend',
+                    e => {
+                        if (e.target === menu) {
+                            menu.style.display = 'none';
+                            nav.classList.remove('closing');
+                        }
+                    },
+                    { once: true }
+                );
             };
 
             const toggleMenu = () =>
@@ -118,7 +127,10 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             const subFilters = document.querySelector('.sub-filters');
             const subBtns = document.querySelectorAll('.sub-btn');
-            const items = document.querySelectorAll('.artwork-item');
+            const items = Array.from(document.querySelectorAll('.artwork-item'));
+            items.forEach(item => {
+                item.tags = item.dataset.tags.split(' ');
+            });
             const popup = document.getElementById('suggestive-popup');
             const adultCheck = document.getElementById('adult-check');
             const confirmBtn = document.getElementById('confirm-adult');
@@ -183,19 +195,22 @@
 
             function hidePopup() {
                 popup.classList.remove('visible');
-                popup.addEventListener('transitionend', function handler(e) {
-                    if (e.target === popup) {
-                        popup.classList.add('hidden');
-                        popup.removeEventListener('transitionend', handler);
-                        adultCheck.checked = false;
-                        confirmBtn.disabled = true;
-                    }
-                });
+                popup.addEventListener(
+                    'transitionend',
+                    e => {
+                        if (e.target === popup) {
+                            popup.classList.add('hidden');
+                            adultCheck.checked = false;
+                            confirmBtn.disabled = true;
+                        }
+                    },
+                    { once: true }
+                );
             }
 
             function applyFilters() {
                 items.forEach(item => {
-                    const tags = item.dataset.tags.split(' ');
+                    const tags = item.tags;
                     const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
                     const matchesSub = !currentSub || tags.includes(currentSub);
                     const isSuggestive = tags.includes('suggestive');
@@ -222,20 +237,19 @@
             const title = document.getElementById('lightbox-title');
             const desc = document.getElementById('lightbox-desc');
 
-    // Detect viewport width in case different behaviour is needed in the
-    // future, though currently the lightbox acts the same on all devices.
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
     if (!lightbox) return;
 
     function closeLightbox() {
         lightbox.classList.remove('visible');
-        lightbox.addEventListener('transitionend', function handler(ev) {
-            if (ev.target === lightbox) {
-                lightbox.classList.add('hidden');
-                lightbox.removeEventListener('transitionend', handler);
-            }
-        });
+        lightbox.addEventListener(
+            'transitionend',
+            ev => {
+                if (ev.target === lightbox) {
+                    lightbox.classList.add('hidden');
+                }
+            },
+            { once: true }
+        );
     }
 
     items.forEach(item => {
@@ -416,9 +430,9 @@
         document.dispatchEvent(new Event('bootFinished'));
         if (crt) {
             crt.classList.add('fade-out');
-            crt.addEventListener('animationend', () => crt.remove());
+            crt.addEventListener('animationend', () => crt.remove(), { once: true });
         }
-        boot.addEventListener('animationend', () => boot.remove());
+        boot.addEventListener('animationend', () => boot.remove(), { once: true });
     }
 
     function addLine() {
