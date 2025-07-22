@@ -1,7 +1,7 @@
 (() => {
     'use strict';
 
-    const PASSIVE = { passive: true };
+    const PASSIVE = Object.freeze({ passive: true });
     const POINTER_EVENTS = ['click', 'touchstart'];
     const addEvents = (el, events, handler, opts) => events.forEach(ev => el.addEventListener(ev, handler, opts));
     const removeEvents = (el, events, handler, opts) => events.forEach(ev => el.removeEventListener(ev, handler, opts));
@@ -130,6 +130,8 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             const subFilters = document.querySelector('.sub-filters');
             const subBtns = document.querySelectorAll('.sub-btn');
+            const filterContainer = document.querySelector('.artwork-filters');
+            const subContainer = document.querySelector('.sub-filters');
             const items = Array.from(document.querySelectorAll('.artwork-item'))
                 .map(el => ({ el, tags: el.dataset.tags.split(' ') }));
             const popup = document.getElementById('suggestive-popup');
@@ -144,16 +146,17 @@
             // Initially hide suggestive artwork from the "ALL" view
             applyFilters();
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
+            if (filterContainer) {
+                filterContainer.addEventListener('click', e => {
+                    const btn = e.target.closest('.filter-btn');
+                    if (!btn) return;
                     prevFilterBtn = document.querySelector('.filter-btn.active');
                     filterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     currentFilter = btn.dataset.filter;
 
-            // Reset sub category selection when switching filters
-            subBtns.forEach(b => b.classList.remove('active'));
-            currentSub = '';
+                    subBtns.forEach(b => b.classList.remove('active'));
+                    currentSub = '';
 
                     if (currentFilter === 'suggestive' && !adultOk) {
                         showPopup();
@@ -166,16 +169,18 @@
                         applyFilters();
                     }
                 });
-            });
+            }
 
-            subBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
+            if (subContainer) {
+                subContainer.addEventListener('click', e => {
+                    const btn = e.target.closest('.sub-btn');
+                    if (!btn) return;
                     subBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     currentSub = btn.dataset.sub;
                     applyFilters();
                 });
-            });
+            }
 
             adultCheck.addEventListener('change', () => {
                 confirmBtn.disabled = !adultCheck.checked;
@@ -450,7 +455,7 @@
         }
     };
 
-    const BOOT_LINES = [
+    const BOOT_LINES = Object.freeze([
         'YUEPLUSH CYBER BIOS v1.0',
         '<span class="boot-blink">INITIALIZING...</span>',
         'Access from external network... <span class="boot-status">Approved</span>',
@@ -463,7 +468,7 @@
         'Welcome, stranger, take easy for moment',
         'Cybernetic link process v1.12 booted up, <span class="boot-status">Accepted</span>',
         '<span class="boot-blink">Screen changes...3...2...1...</span>'
-    ];
+    ]);
 
     const BootScreen = {
         init() {
@@ -473,20 +478,34 @@
             if (!boot) return;
 
             if (filter) {
-                fetch('boot-config.json')
-                    .then(r => r.ok ? r.json() : null)
-                    .then(cfg => {
-                        if (!cfg || !cfg.crt) return;
-                        const turb = filter.querySelector('feTurbulence');
-                        const disp = filter.querySelector('feDisplacementMap');
-                        if (turb && cfg.crt.baseFrequencyX && cfg.crt.baseFrequencyY) {
-                            turb.setAttribute('baseFrequency', `${cfg.crt.baseFrequencyX} ${cfg.crt.baseFrequencyY}`);
-                        }
-                        if (disp && cfg.crt.scale) {
-                            disp.setAttribute('scale', cfg.crt.scale);
-                        }
-                    })
-                    .catch(() => {});
+                const applyCfg = cfg => {
+                    const turb = filter.querySelector('feTurbulence');
+                    const disp = filter.querySelector('feDisplacementMap');
+                    if (turb && cfg.baseFrequencyX && cfg.baseFrequencyY) {
+                        turb.setAttribute('baseFrequency', `${cfg.baseFrequencyX} ${cfg.baseFrequencyY}`);
+                    }
+                    if (disp && cfg.scale) {
+                        disp.setAttribute('scale', cfg.scale);
+                    }
+                };
+
+                const cached = sessionStorage.getItem('bootConfig');
+                if (cached) {
+                    try {
+                        const cfg = JSON.parse(cached);
+                        if (cfg && cfg.crt) applyCfg(cfg.crt);
+                    } catch (e) { /* ignore */ }
+                } else {
+                    fetch('boot-config.json')
+                        .then(r => r.ok ? r.json() : null)
+                        .then(cfg => {
+                            if (cfg && cfg.crt) {
+                                sessionStorage.setItem('bootConfig', JSON.stringify(cfg));
+                                applyCfg(cfg.crt);
+                            }
+                        })
+                        .catch(() => {});
+                }
             }
 
             const container = boot.querySelector('.boot-container');
