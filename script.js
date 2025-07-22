@@ -541,10 +541,11 @@
 
     const RightClickBlocker = {
         init() {
-            const desktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-            if (!desktop) return;
             document.addEventListener('contextmenu', e => {
-                if (e.target.closest('img')) {
+                e.preventDefault();
+            });
+            document.addEventListener('mousedown', e => {
+                if (e.button === 2) {
                     e.preventDefault();
                 }
             });
