@@ -219,7 +219,7 @@
                     if (currentFilter === 'suggestive' && !currentSub) {
                         visible = false;
                     }
-                    if (currentFilter === 'all' && !adultOk && isSuggestive) {
+                    if ((currentFilter === 'all' || currentFilter === 'commission') && !adultOk && isSuggestive) {
                         visible = false;
                     }
 

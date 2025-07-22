@@ -8,6 +8,11 @@ they are adults. After confirming, subcategories such as Bubbles, Balloons,
 Pooltoy and Other become available. No suggestive artwork is shown until one of
 these subcategories is chosen.
 
+The gallery includes filter buttons for **ALL**, **SFW Art**, **Suggestive Art**,
+**Commission Art**, **3D Model** and **OCs**. Items tagged as both
+Commission and Suggestive stay hidden in the Commission and ALL views until the
+adult confirmation checkbox has been enabled.
+
 Tapping an artwork opens it in a full screen view. Clicking or tapping the
 full image again fades it out and closes the lightbox on desktop, tablets and
 smartphones alike for consistent navigation across devices. The layout also
