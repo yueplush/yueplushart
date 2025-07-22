@@ -19,6 +19,12 @@
     <div class="background-animation"></div>
     <canvas id="bubble-canvas"></canvas>
     <div id="scanline-overlay"></div>
+    <svg id="crt-filters" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+        <filter id="crt-distortion">
+            <feImage xlink:href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='white'/%3E%3Cstop offset='100%25' stop-color='black'/%3E%3C/radialGradient%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3C/svg%3E" result="map" preserveAspectRatio="none" />
+            <feDisplacementMap in="SourceGraphic" in2="map" scale="40" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
 
     <img id="about-decor" class="hidden" src="https://yueplush-artwork.netlify.app/avatar_full.webp" alt="Decorative avatar">
 
@@ -107,28 +113,28 @@
             </div>
             <div class="artwork-gallery">
                 <div class="artwork-item square" data-tags="sfw" data-title="devil" data-desc="or cosplay something">
-                    <img data-src="https://yueplush-artwork.netlify.app/devil_optimized.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" class="lazy" alt="devil">
+                    <img src="https://yueplush-artwork.netlify.app/devil_optimized.webp" alt="devil">
                     <div class="art-info">
                         <h3>devil</h3>
                         <p>or cosplay something</p>
                     </div>
                 </div>
                 <div class="artwork-item square" data-tags="sfw" data-title="Mt.Fuji scenery" data-desc="This was exhibited at an exhibition in Kumamoto, Japan.">
-                    <img data-src="https://yueplush-artwork.netlify.app/mt-fuji_optimized.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" class="lazy" alt="Mt.Fuji scenery">
+                    <img src="https://yueplush-artwork.netlify.app/mt-fuji_optimized.webp" alt="Mt.Fuji scenery">
                     <div class="art-info">
                         <h3>Mt.Fuji scenery</h3>
                         <p>This was exhibited at an exhibition in Kumamoto, Japan.</p>
                     </div>
                 </div>
                 <div class="artwork-item square" data-tags="sfw" data-title="Militia" data-desc="we need some backup for the this place">
-                    <img data-src="https://yueplush-artwork.netlify.app/militia_optimized.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" class="lazy" alt="Militia">
+                    <img src="https://yueplush-artwork.netlify.app/militia_optimized.webp" alt="Militia">
                     <div class="art-info">
                         <h3>Militia</h3>
                         <p>we need some backup for the this place</p>
                     </div>
                 </div>
                 <div class="artwork-item square" data-tags="suggestive bubbles" data-title="Book of Bubbles" data-desc="I'm flying at the night!">
-                    <img data-src="https://yueplush-artwork.netlify.app/bubble1_optimized.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" class="lazy" alt="Book of Bubbles">
+                    <img src="https://yueplush-artwork.netlify.app/bubble1_optimized.webp" alt="Book of Bubbles">
                     <div class="art-info">
                         <h3>Book of Bubbles</h3>
                         <p>I'm flying at the night!</p>
