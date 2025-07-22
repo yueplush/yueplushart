@@ -369,12 +369,12 @@ main {
     font-size: 3em;
     margin-bottom: 10px;
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 #hero p {
     font-size: 1.2em;
-    text-align: left;
+    text-align: center;
 }
 
 .hero-text {
@@ -389,14 +389,15 @@ main {
     z-index: 102;
 }
 
+
 .hero-subtitle {
     font-size: 1em;
-    text-align: right;
+    text-align: center;
 }
 
 .years-exp {
     display: block;
-    text-align: right;
+    text-align: center;
     white-space: nowrap;
 }
 
@@ -592,7 +593,7 @@ br.tablet-break {
     }
 
     .hero-subtitle {
-        text-align: right;
+        text-align: center;
     }
 
     .content-section {
@@ -613,7 +614,7 @@ br.tablet-break {
 
     .years-exp {
         display: block;
-        text-align: right;
+        text-align: center;
     }
 }
 
@@ -625,7 +626,7 @@ br.tablet-break {
 
     #hero h1 {
         font-size: 2.8em; /* match PC headline size */
-        white-space: nowrap;
+        white-space: normal;
     }
 
     #hero p {
@@ -633,7 +634,7 @@ br.tablet-break {
     }
 
     .hero-subtitle {
-        text-align: right;
+        text-align: center;
     }
 
     .content-section {
@@ -1121,7 +1122,7 @@ br.tablet-break {
 
     #hero h1 {
         font-size: 2.8em;
-        white-space: nowrap;
+        white-space: normal;
     }
 
     #hero p {
@@ -1205,9 +1206,9 @@ br.tablet-break {
     }
 }
 
-/* PC-specific right alignment for hero subtitle */
+/* PC-specific center alignment for hero subtitle */
 @media (min-width: 1025px) {
     .hero-subtitle {
-        text-align: right;
+        text-align: center;
     }
 }
