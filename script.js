@@ -2,38 +2,28 @@
     'use strict';
 
     const Utils = {
-        fadeOut(element) {
+        waitForTransition(element) {
             return new Promise(resolve => {
-                element.classList.remove('visible');
-                element.classList.add('hidden');
-                element.addEventListener(
-                    'transitionend',
-                    e => {
-                        if (e.target === element) {
-                            element.style.display = 'none';
-                            resolve();
-                        }
-                    },
-                    { once: true }
-                );
+                const onEnd = e => {
+                    if (e.target === element) {
+                        resolve();
+                    }
+                };
+                element.addEventListener('transitionend', onEnd, { once: true });
             });
+        },
+        async fadeOut(element) {
+            element.classList.remove('visible');
+            element.classList.add('hidden');
+            await Utils.waitForTransition(element);
+            element.style.display = 'none';
         },
         fadeIn(element) {
             element.style.display = 'block';
             void element.offsetWidth;
-            return new Promise(resolve => {
-                element.classList.remove('hidden');
-                element.classList.add('visible');
-                element.addEventListener(
-                    'transitionend',
-                    e => {
-                        if (e.target === element) {
-                            resolve();
-                        }
-                    },
-                    { once: true }
-                );
-            });
+            element.classList.remove('hidden');
+            element.classList.add('visible');
+            return Utils.waitForTransition(element);
         }
     };
 
@@ -401,6 +391,21 @@
         }
     };
 
+    const BOOT_LINES = [
+        'YUEPLUSH CYBER BIOS v1.0',
+        '<span class="boot-blink">INITIALIZING...</span>',
+        'Access from external network... <span class="boot-status">Approved</span>',
+        'System boot... <span class="boot-status">Initialize</span>',
+        'CPU... <span class="boot-status">OK</span>',
+        'GPU... <span class="boot-status">OK</span>',
+        'RAM... <span class="boot-status">OK</span>',
+        'Storage... <span class="boot-status">OK</span>',
+        'Security protocols... <span class="boot-status">Enabled</span>',
+        'Welcome, stranger, take easy for moment',
+        'Cybernetic link process v1.12 booted up, <span class="boot-status">Accepted</span>',
+        '<span class="boot-blink">Screen changes...3...2...1...</span>'
+    ];
+
     const BootScreen = {
         init() {
             const boot = document.getElementById('boot-screen');
@@ -408,31 +413,17 @@
             if (!boot) return;
 
             const container = boot.querySelector('.boot-container');
-            const lines = [
-                'YUEPLUSH CYBER BIOS v1.0',
-                '<span class="boot-blink">INITIALIZING...</span>',
-                'Access from external network... <span class="boot-status">Approved</span>',
-                'System boot... <span class="boot-status">Initialize</span>',
-                'CPU... <span class="boot-status">OK</span>',
-                'GPU... <span class="boot-status">OK</span>',
-                'RAM... <span class="boot-status">OK</span>',
-                'Storage... <span class="boot-status">OK</span>',
-                'Security protocols... <span class="boot-status">Enabled</span>',
-                'Welcome, stranger, take easy for moment',
-                'Cybernetic link process v1.12 booted up, <span class="boot-status">Accepted</span>',
-                '<span class="boot-blink">Screen changes...3...2...1...</span>'
-            ];
-
             let index = 0;
             const delay = 300;
             let timer;
+            let finished = false;
 
             const finishBoot = () => {
-                if (boot.classList.contains('fade-out')) return;
+                if (finished || boot.classList.contains('fade-out')) return;
+                finished = true;
                 clearTimeout(timer);
                 boot.classList.add('fade-out');
                 ['click', 'touchstart'].forEach(ev => boot.removeEventListener(ev, finishBoot));
-                lines.length = 0;
                 document.dispatchEvent(new Event('bootFinished'));
                 if (crt) {
                     crt.classList.add('fade-out');
@@ -442,13 +433,14 @@
             };
 
             const addLine = () => {
-                if (index >= lines.length) {
+                if (finished) return;
+                if (index >= BOOT_LINES.length) {
                     timer = setTimeout(finishBoot, 1600);
                     return;
                 }
                 const div = document.createElement('div');
                 div.className = 'boot-line';
-                div.innerHTML = lines[index++];
+                div.innerHTML = BOOT_LINES[index++];
                 container.appendChild(div);
                 timer = setTimeout(addLine, delay);
             };
