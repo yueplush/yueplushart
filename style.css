@@ -752,7 +752,7 @@ br.tablet-break {
     width: 30%;
     max-width: 450px;
     height: auto;
-    pointer-events: none;
+    pointer-events: auto; /* allow hover/tap interaction */
     z-index: 102;
     opacity: 0;
     display: none;
@@ -764,8 +764,9 @@ br.tablet-break {
     opacity: 1;
 }
 
-#about-decor:hover {
-    opacity: 0.3;
+#about-decor:hover,
+#about-decor:active {
+    opacity: 0.5; /* slightly faded on hover/tap */
 }
 
 #about-decor.hidden {
