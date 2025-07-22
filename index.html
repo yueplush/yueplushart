@@ -19,6 +19,12 @@
     <div class="background-animation"></div>
     <canvas id="bubble-canvas"></canvas>
     <div id="scanline-overlay"></div>
+    <svg id="crt-filters" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+        <filter id="crt-distortion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.003 0.006" numOctaves="2" result="turb" />
+            <feDisplacementMap in="SourceGraphic" in2="turb" scale="20" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
 
     <img id="about-decor" class="hidden" src="https://yueplush-artwork.netlify.app/avatar_full.webp" alt="Decorative avatar">
 

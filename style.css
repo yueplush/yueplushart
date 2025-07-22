@@ -18,6 +18,8 @@ body {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at center, #001 0%, #000 80%);
+    filter: url(#crt-distortion);
+    transform: scale(1.01);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
