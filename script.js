@@ -82,6 +82,9 @@
                 if (activeSection) await Utils.fadeOut(activeSection);
                 activeSection = section;
                 if (section) await Utils.fadeIn(section);
+                if (section && section.id === 'my-artwork') {
+                    LazyLoadArtwork.init();
+                }
 
                 if (aboutDecor && window.matchMedia('(min-width: 601px)').matches) {
                     if (section === heroSection) {
@@ -335,47 +338,36 @@
     };
 
     const LazyLoadArtwork = {
+        initialized: false,
         init() {
-            const images = document.querySelectorAll('#my-artwork .artwork-gallery img');
+            if (this.initialized) return;
+            const images = document.querySelectorAll('#my-artwork .artwork-gallery img[data-src]');
             if (!images.length) return;
+            this.initialized = true;
 
-            const lazyImgs = [];
-            images.forEach((img, idx) => {
-                if (idx >= 6) {
-                    img.dataset.src = img.src;
-                    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-                    img.classList.add('lazy');
-                    img.setAttribute('loading', 'lazy');
-                    lazyImgs.push(img);
+            const loadImg = img => {
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
                 }
-            });
+                img.classList.remove('lazy');
+            };
 
-            if (!lazyImgs.length || !('IntersectionObserver' in window)) {
-                lazyImgs.forEach(img => {
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        img.classList.remove('lazy');
-                    }
-                });
+            if (!('IntersectionObserver' in window)) {
+                images.forEach(loadImg);
                 return;
             }
 
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const img = entry.target;
-                        if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                            img.removeAttribute('data-src');
-                        }
-                        img.classList.remove('lazy');
-                        obs.unobserve(img);
+                        loadImg(entry.target);
+                        obs.unobserve(entry.target);
                     }
                 });
             }, { rootMargin: '100px 0px' });
 
-            lazyImgs.forEach(img => observer.observe(img));
+            images.forEach(img => observer.observe(img));
         }
     };
 
@@ -456,7 +448,6 @@
             BootScreen.init();
             Navigation.init();
             ArtworkFilters.init();
-            LazyLoadArtwork.init();
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
