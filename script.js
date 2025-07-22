@@ -410,7 +410,25 @@
         init() {
             const boot = document.getElementById('boot-screen');
             const crt = document.getElementById('crt-overlay');
+            const filter = document.getElementById('crt-distortion');
             if (!boot) return;
+
+            if (filter) {
+                fetch('boot-config.json')
+                    .then(r => r.ok ? r.json() : null)
+                    .then(cfg => {
+                        if (!cfg || !cfg.crt) return;
+                        const turb = filter.querySelector('feTurbulence');
+                        const disp = filter.querySelector('feDisplacementMap');
+                        if (turb && cfg.crt.baseFrequencyX && cfg.crt.baseFrequencyY) {
+                            turb.setAttribute('baseFrequency', `${cfg.crt.baseFrequencyX} ${cfg.crt.baseFrequencyY}`);
+                        }
+                        if (disp && cfg.crt.scale) {
+                            disp.setAttribute('scale', cfg.crt.scale);
+                        }
+                    })
+                    .catch(() => {});
+            }
 
             const container = boot.querySelector('.boot-container');
             let index = 0;
