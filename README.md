@@ -47,10 +47,11 @@ Disallow: /*.svg$
 
 The JavaScript includes a bot detector that checks user agent strings,
 plugin and MIME type presence, hardware concurrency, requestAnimationFrame
-support and timezone information. Images are obfuscated using an XOR cipher on
-top of Base64. The decryption key is stored in an encoded form and images are
-decoded a short while after the first user interaction. Interactions that occur
-immediately after load are ignored to catch automated scripts. These small
-layers discourage automated scraping while keeping the site seamless for normal
-visitors.
+support and timezone information. Additional heuristics examine touch support
+and `navigator.userAgentData` when available. Images are obfuscated using an XOR
+cipher on top of Base64; the encoded data is split across several custom
+attributes so it is harder to scrape directly from the markup. Images are
+decoded only after two normal user interactions spaced slightly apart to catch
+automated scripts. These small layers discourage automated scraping while
+keeping the site seamless for normal visitors.
 

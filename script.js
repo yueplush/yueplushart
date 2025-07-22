@@ -539,6 +539,14 @@
             if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 1) return true;
             if (window.outerWidth === 0 || window.outerHeight === 0) return true;
             if (!window.requestAnimationFrame) return true;
+            if (/android|iphone|ipad|mobile/.test(ua) && navigator.maxTouchPoints === 0) return true;
+            if (navigator.userAgentData) {
+                const brands = navigator.userAgentData.brands
+                    .map(b => b.brand.toLowerCase())
+                    .join(' ');
+                if (/bot|headless/.test(brands)) return true;
+                if (navigator.userAgentData.mobile === false && /android|iphone|ipad/.test(ua) && navigator.maxTouchPoints === 0) return true;
+            }
             try {
                 const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
                 if (!tz) return true;
@@ -561,12 +569,13 @@
         decodeImages() {
             const parts = ['c', '2', 'V', 'j', 'cmV0'];
             const key = atob(parts.join(''));
-            document.querySelectorAll('img[data-xor-src]').forEach(img => {
-                const enc = img.dataset.xorSrc;
+            document.querySelectorAll('img[data-x1]').forEach(img => {
+                const enc = (img.dataset.x1 || '') + (img.dataset.x2 || '') +
+                            (img.dataset.x3 || '') + (img.dataset.x4 || '');
                 if (!enc) return;
                 try {
                     img.src = AntiScrape.xorDecode(enc, key);
-                    img.removeAttribute('data-xor-src');
+                    ['x1','x2','x3','x4'].forEach(p => img.removeAttribute('data-' + p));
                 } catch (e) {
                     // ignore invalid data
                 }
@@ -575,14 +584,27 @@
         init() {
             if (BotDetector.isLikelyBot()) return;
             const pageLoad = performance.now();
+            let firstTime = 0;
+            let interactions = 0;
             const trigger = () => {
-                const sinceLoad = performance.now() - pageLoad;
+                const now = performance.now();
+                const sinceLoad = now - pageLoad;
                 if (sinceLoad < 100) return; // ignore suspiciously fast interaction
+                if (!firstTime) {
+                    firstTime = now;
+                    interactions = 1;
+                    return;
+                }
+                if (now - firstTime < 300) {
+                    interactions++;
+                    return;
+                }
+                if (interactions < 2) return;
                 setTimeout(AntiScrape.decodeImages, 1000 + Math.random() * 1000);
                 events.forEach(ev => window.removeEventListener(ev, trigger));
             };
             const events = ['mousemove', 'scroll', 'keydown', 'touchstart'];
-            events.forEach(ev => window.addEventListener(ev, trigger, { once: true, ...PASSIVE }));
+            events.forEach(ev => window.addEventListener(ev, trigger, PASSIVE));
         }
     };
 
