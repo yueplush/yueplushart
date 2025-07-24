@@ -36,6 +36,7 @@
         init() {
             const navLinks = document.querySelectorAll('nav a[data-section]');
             const heroSection = document.getElementById('hero');
+            const infoSection = document.getElementById('info');
             const aboutDecor = document.getElementById('about-decor');
             const menuToggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('header nav');
@@ -99,7 +100,14 @@
                 }
             };
 
-            heroSection.addEventListener('click', () => showSection(null), PASSIVE);
+            heroSection.addEventListener('click', () => {
+                if (infoSection) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const infoLink = document.querySelector('nav a[data-section="info"]');
+                    if (infoLink) infoLink.classList.add('active');
+                }
+                showSection(infoSection);
+            }, PASSIVE);
             document.addEventListener('bootFinished', () => {
                 Utils.fadeIn(heroSection).then(() => {
                     activeSection = heroSection;
