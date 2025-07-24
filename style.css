@@ -735,13 +735,19 @@ br.tablet-break {
 
 #info .info-banner {
     display: block;
-    margin: 0 auto 20px;
+    margin: 0 0 20px 0; /* left aligned */
     max-width: 100%;
     image-rendering: pixelated;
 }
 
+#info .banner-label {
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: left;
+}
+
 #info .info-instruction {
-    text-align: center;
+    text-align: left;
     margin-bottom: 10px;
 }
 
@@ -758,7 +764,7 @@ br.tablet-break {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
-    max-width: 760px;
+    max-width: 380px; /* half of previous width */
 }
 
 #info .code-box.copied {
