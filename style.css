@@ -753,6 +753,7 @@ br.tablet-break {
     color: #fff;
     font-family: monospace;
     cursor: pointer;
+    white-space: pre-wrap;
     word-break: break-all;
     margin-left: auto;
     margin-right: auto;
