@@ -463,6 +463,20 @@
         }
     };
 
+    const CodeCopy = {
+        init() {
+            const box = document.getElementById('banner-code-box');
+            if (!box || !navigator.clipboard) return;
+            box.addEventListener('click', () => {
+                const text = box.textContent.trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    box.classList.add('copied');
+                    setTimeout(() => box.classList.remove('copied'), 1000);
+                }).catch(() => {});
+            });
+        }
+    };
+
     const BOOT_LINES = Object.freeze([
         'YUEPLUSH CYBER BIOS v1.0',
         '<span class="boot-blink">INITIALIZING...</span>',
@@ -658,6 +672,7 @@
             Lightbox.init();
             BubbleAnimation.init();
             ProfileToggle.init();
+            CodeCopy.init();
             RightClickBlocker.init();
         }
     };
