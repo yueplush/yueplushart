@@ -687,7 +687,7 @@ br.tablet-break {
 
 #my-artwork h2 {
     text-align: left;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -695,7 +695,7 @@ br.tablet-break {
 }
 
 #my-artwork .artwork-content {
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -740,11 +740,6 @@ br.tablet-break {
     image-rendering: pixelated;
 }
 
-#info .banner-label {
-    font-weight: bold;
-    margin: 10px 0;
-    text-align: left;
-}
 
 #info .info-instruction {
     text-align: left;
@@ -761,7 +756,7 @@ br.tablet-break {
     cursor: pointer;
     white-space: pre-wrap;
     word-break: break-all;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     margin-bottom: 20px;
     max-width: 380px; /* half of previous width */
