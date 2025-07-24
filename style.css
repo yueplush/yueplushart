@@ -711,6 +711,36 @@ br.tablet-break {
 }
 
 
+/* Info Section Styles */
+#info {
+    text-align: left;
+}
+
+#info h2 {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
+}
+
+#info .info-content {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 760px;
+}
+
+@media (min-width: 768px) {
+    #info .info-content,
+    #info h2 {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
 
 /* Commission Section Styles */
 #commission {
