@@ -55,3 +55,11 @@ decoded only after two normal user interactions spaced slightly apart to catch
 automated scripts. These small layers discourage automated scraping while
 keeping the site seamless for normal visitors.
 
+## Network Links
+
+### ✅️Art Gallery Sites
+
+- [Fur Affinity](https://www.furaffinity.net/user/yueplush)
+- [Deviant Art](https://www.deviantart.com/yueplushart)
+- [Afterdark.art](https://afterdark.art/user/yueplushart)
+
